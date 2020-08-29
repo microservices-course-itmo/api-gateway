@@ -16,11 +16,7 @@
     </parent>
 
     <properties>
-        <current-version>0.1.0</current-version>
-<!--        &lt;!&ndash; Нужен для scm &ndash;&gt;-->
-<!--        <git.username>andrsuh</git.username>-->
-<!--        <git.repo>service-app</git.repo>-->
-
+        <current-version>0.2.0</current-version>
 
         <lombok.version>1.18.10</lombok.version>
         <demo.service.api.version>0.3.0-SNAPSHOT</demo.service.api.version>
@@ -38,10 +34,6 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-actuator</artifactId>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
@@ -57,14 +49,6 @@
             <version>${catalog.service.api.version}</version>
         </dependency>
     </dependencies>
-
-    <!-- Нужен для buildnumber-maven-plugin -->
-    <scm>
-        <connection>scm:git:https://https://github.com/${git.username}/${git.repo}.git</connection>
-        <developerConnection>scm:git:https://https://github.com/${git.username}/${git.repo}.git</developerConnection>
-        <tag>HEAD</tag>
-        <url>https://https://github.com/${git.username}/${git.repo}.git</url>
-    </scm>
 
     <!-- Нужен для пуша jar в репозиторий libs-snapshot-local в jfrog artifactory -->
     <distributionManagement>
@@ -85,22 +69,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-<!--    &lt;!&ndash; Нужен для buildnumber-maven-plugin &ndash;&gt;-->
-<!--    <scm>-->
-<!--        <connection>scm:git:https://https://github.com/${git.username}/${git.repo}.git</connection>-->
-<!--        <developerConnection>scm:git:https://https://github.com/${git.username}/${git.repo}.git</developerConnection>-->
-<!--        <tag>HEAD</tag>-->
-<!--        <url>https://https://github.com/${git.username}/${git.repo}.git</url>-->
-<!--    </scm>-->
-
-    <!-- Нужен для пуша jar в репозиторий libs-snapshot-local в jfrog artifactory -->
-    <distributionManagement>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <url>http://artifactory:8081/artifactory/libs-snapshot-local</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <build>
         <plugins>

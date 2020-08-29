@@ -1,7 +1,7 @@
 package com.wine.to.up.apigateway.controller;
 
 import com.wine.to.up.api.feign.CatalogServiceClient;
-import com.wine.to.up.apigateway.dto.ApiGateWayDto;
+import com.wine.to.up.apigateway.dto.ApiGatewayDto;
 import com.wine.to.up.demo.service.api.service.KafkaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,9 +38,9 @@ public class ApiGatewayController {
     }
 
     @GetMapping("aggregation")
-    public ApiGateWayDto getAll() throws ExecutionException, InterruptedException {
+    public ApiGatewayDto getAll() throws ExecutionException, InterruptedException {
       return CompletableFuture.supplyAsync(catalogService::getAllMessages)
-                .thenCombineAsync(CompletableFuture.supplyAsync(kafkaService::getAllMessages),
-                        ApiGateWayDto::new).get();
+                .thenCombineAsync(CompletableFuture.supplyAsync(kafkaService::getAllSentMessages),
+                        ApiGatewayDto::new).get();
     }
 }

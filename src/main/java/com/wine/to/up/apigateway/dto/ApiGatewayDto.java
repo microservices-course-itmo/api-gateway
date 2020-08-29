@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class ApiGateWayDto {
+public class ApiGatewayDto {
     private final List<String> catalogMessages;
     private final List<String> allSentMessages;
 }
