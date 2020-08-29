@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.wine.to.up</groupId>
@@ -23,8 +23,8 @@
 
 
         <lombok.version>1.18.10</lombok.version>
-        <demo.service.api.version>0.2.0-SNAPSHOT</demo.service.api.version>
-        <catalog.service.api.version>0.1.2-SNAPSHOT</catalog.service.api.version>
+        <demo.service.api.version>0.3.0-SNAPSHOT</demo.service.api.version>
+        <catalog.service.api.version>0.1.0-SNAPSHOT</catalog.service.api.version>
 
         <spring-cloud.version>Hoxton.SR7</spring-cloud.version>
 
@@ -70,7 +70,6 @@
     <distributionManagement>
         <snapshotRepository>
             <id>snapshots</id>
-            <name>bc9cbe1b5658-snapshots</name> <!-- Сгенерировано jfrog -->
             <url>http://artifactory:8081/artifactory/libs-snapshot-local</url>
         </snapshotRepository>
     </distributionManagement>
