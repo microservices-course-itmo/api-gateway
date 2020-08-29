@@ -10,15 +10,12 @@
     </parent>
 
     <groupId>com.wine.to.up</groupId>
-    <artifactId>demo-api-gateway</artifactId>
+    <artifactId>api-gateway</artifactId>
     <version>${current-version}-SNAPSHOT</version>
     <name>api-gateway</name>
 
     <properties>
-<!--        <git.username>microservices-course-itmo</git.username>-->
-<!--        <git.repo>demo-api-gateway</git.repo>-->
         <current-version>0.1.0</current-version>
-
 
         <java.version>11</java.version>
         <spring-cloud.version>Hoxton.SR7</spring-cloud.version>
@@ -45,14 +42,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-<!--    &lt;!&ndash; Нужен для buildnumber-maven-plugin &ndash;&gt;-->
-<!--    <scm>-->
-<!--        <connection>scm:git:https://https://github.com/${git.username}/${git.repo}.git</connection>-->
-<!--        <developerConnection>scm:git:https://https://github.com/${git.username}/${git.repo}.git</developerConnection>-->
-<!--        <tag>HEAD</tag>-->
-<!--        <url>https://https://github.com/${git.username}/${git.repo}.git</url>-->
-<!--    </scm>-->
 
     <!-- Нужен для пуша jar в репозиторий libs-snapshot-local в jfrog artifactory -->
     <distributionManagement>
