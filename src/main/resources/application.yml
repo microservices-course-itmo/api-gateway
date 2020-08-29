@@ -1,0 +1,15 @@
+# Zuul looks for Eureka (Netflix discovery service) by default.
+# Once service are deployed, they are managed by Docker Swarm discovery service and Eureka is not used
+ribbon:
+  eureka:
+    enabled: false
+zuul:
+  routes:
+    service-app:
+      path: /service/**
+      url: http://${S_SERVICE_APP_HOST:localhost:8080}
+  # ignore all services except ones that are explicitly mapped
+  ignored-services: '*'
+
+server:
+  port: 8081
