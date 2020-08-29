@@ -1,0 +1,4 @@
+zuul:
+  routes:
+    demo-service:
+      url: http://demo-service:8080

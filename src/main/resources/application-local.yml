@@ -1,4 +1,4 @@
-#zuul:
-#  routes:
-#    service-app:
-#      url: http://localhost:8080
+zuul:
+  routes:
+    demo-service:
+      url: http://localhost:8080
