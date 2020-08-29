@@ -5,11 +5,11 @@ ribbon:
     enabled: false
 zuul:
   routes:
-    service-app:
-      path: /service/**
-      url: http://${S_SERVICE_APP_HOST:localhost:8080}
-  # ignore all services except ones that are explicitly mapped
+    demo-service:
+      path: /demo-service/**
+# ignore all services except ones that are explicitly mapped
   ignored-services: '*'
 
 server:
-  port: 8081
+  port: 5601
+
