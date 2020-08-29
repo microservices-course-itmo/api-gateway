@@ -11,12 +11,14 @@
 
     <groupId>com.wine.to.up</groupId>
     <artifactId>demo-api-gateway</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${current-version}-SNAPSHOT</version>
     <name>api-gateway</name>
 
     <properties>
 <!--        <git.username>microservices-course-itmo</git.username>-->
 <!--        <git.repo>demo-api-gateway</git.repo>-->
+        <current-version>0.1.0</current-version>
+
 
         <java.version>11</java.version>
         <spring-cloud.version>Hoxton.SR7</spring-cloud.version>
