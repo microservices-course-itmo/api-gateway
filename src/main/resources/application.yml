@@ -11,5 +11,5 @@ zuul:
   ignored-services: '*'
 
 server:
-  port: 8090
+  port: 5601
 
