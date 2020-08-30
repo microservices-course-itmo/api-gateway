@@ -17,6 +17,9 @@
     <properties>
         <current-version>0.1.0</current-version>
 
+        <micrometer.version>1.5.2</micrometer.version>
+        <simpleclient.version>0.8.1</simpleclient.version>
+
         <java.version>11</java.version>
         <spring-cloud.version>Hoxton.SR7</spring-cloud.version>
 
@@ -25,6 +28,40 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>${micrometer.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient</artifactId>
+            <version>${simpleclient.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_hotspot</artifactId>
+            <version>${simpleclient.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_common</artifactId>
+            <version>${simpleclient.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_servlet</artifactId>
+            <version>${simpleclient.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_httpserver</artifactId>
+            <version>${simpleclient.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-zuul</artifactId>

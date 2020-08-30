@@ -12,4 +12,11 @@ zuul:
 
 server:
   port: 5601
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+  endpoint:
+    prometheus:
+      enabled: true
