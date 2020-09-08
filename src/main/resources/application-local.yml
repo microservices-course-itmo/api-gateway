@@ -4,3 +4,5 @@ zuul:
       url: http://localhost:8080
     catalog-test-service:
       url: http://localhost:8090
+server:
+  port: 5601

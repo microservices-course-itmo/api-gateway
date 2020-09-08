@@ -12,6 +12,3 @@ zuul:
 # ignore all services except ones that are explicitly mapped
   ignored-services: '*'
 
-server:
-  port: 5601
-
