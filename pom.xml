@@ -16,7 +16,7 @@
     </parent>
 
     <properties>
-        <current-version>0.2.0</current-version>
+        <current-version>0.2.1</current-version>
 
         <lombok.version>1.18.10</lombok.version>
         <demo.service.api.version>0.3.0-SNAPSHOT</demo.service.api.version>
@@ -71,8 +71,8 @@
     </dependencyManagement>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
-
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
