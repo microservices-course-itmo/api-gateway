@@ -1,4 +1,4 @@
-package com.wine.to.up.apigateway;
+package com.wine.to.up.apigateway.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.wine.to.up.apigateway.dto;
+package com.wine.to.up.apigateway.service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

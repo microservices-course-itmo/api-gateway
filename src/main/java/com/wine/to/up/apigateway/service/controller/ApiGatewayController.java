@@ -1,7 +1,7 @@
-package com.wine.to.up.apigateway.controller;
+package com.wine.to.up.apigateway.service.controller;
 
 import com.wine.to.up.api.feign.CatalogServiceClient;
-import com.wine.to.up.apigateway.dto.ApiGatewayDto;
+import com.wine.to.up.apigateway.service.dto.ApiGatewayDto;
 import com.wine.to.up.demo.service.api.service.KafkaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
