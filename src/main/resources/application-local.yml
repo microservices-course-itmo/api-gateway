@@ -2,5 +2,5 @@ zuul:
   routes:
     demo-service:
       url: http://localhost:8080
-    catalog-test-service:
+    demo-catalog-service:
       url: http://localhost:8090

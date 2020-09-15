@@ -2,7 +2,7 @@ zuul:
   routes:
     demo-service:
       url: http://demo-service:8080
-    catalog-test-service:
+    demo-catalog-service:
       url: http://demo-catalog-service:8080
 server:
   port: 8080
