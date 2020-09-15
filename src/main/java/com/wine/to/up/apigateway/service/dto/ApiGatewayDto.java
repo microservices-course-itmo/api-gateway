@@ -9,5 +9,5 @@ import java.util.List;
 @AllArgsConstructor
 public class ApiGatewayDto {
     private final List<String> catalogMessages;
-    private final List<String> allSentMessages;
+    private final List<String> sentMessages;
 }
