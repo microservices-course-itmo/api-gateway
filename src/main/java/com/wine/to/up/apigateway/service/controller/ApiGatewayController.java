@@ -1,8 +1,8 @@
 package com.wine.to.up.apigateway.service.controller;
 
-import com.wine.to.up.api.feign.CatalogServiceClient;
 import com.wine.to.up.apigateway.service.dto.ApiGatewayDto;
-import com.wine.to.up.demo.service.api.service.KafkaService;
+import com.wine.to.up.demo.catalog.service.api.feign.DemoCatalogServiceClient;
+import com.wine.to.up.demo.service.api.feign.DemoServiceClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,14 +17,14 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 @Slf4j
 public class ApiGatewayController {
-    private final CatalogServiceClient catalogService;
+    private final DemoCatalogServiceClient catalogService;
 
-    private final KafkaService kafkaService;
+    private final DemoServiceClient demoService;
 
     @PostMapping("/composition/{messageId}")
     public void sendMessageToKafka(@PathVariable Integer messageId) throws ExecutionException, InterruptedException {
         CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> catalogService.getAllMessages().get(messageId + 1))
-                .thenAccept(kafkaService::sendMessage);
+                .thenAccept(demoService::sendMessage);
 
         future.get();
     }
@@ -33,14 +33,14 @@ public class ApiGatewayController {
     public void printAndSend(@PathVariable Integer messageId) throws ExecutionException, InterruptedException {
         CompletableFuture.allOf(
                 CompletableFuture.runAsync(() -> catalogService.printMessages(messageId)),
-                CompletableFuture.runAsync(() -> kafkaService.sendMessage("Print id " + messageId + " was submitted"))
+                CompletableFuture.runAsync(() -> demoService.sendMessage("Print id " + messageId + " was submitted"))
         ).get();
     }
 
     @GetMapping("aggregation")
     public ApiGatewayDto getAll() throws ExecutionException, InterruptedException {
       return CompletableFuture.supplyAsync(catalogService::getAllMessages)
-                .thenCombineAsync(CompletableFuture.supplyAsync(kafkaService::getAllSentMessages),
+                .thenCombineAsync(CompletableFuture.supplyAsync(demoService::getSentMessages),
                         ApiGatewayDto::new).get();
     }
 }

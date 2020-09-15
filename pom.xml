@@ -16,11 +16,16 @@
     </parent>
 
     <properties>
-        <current-version>0.2.1</current-version>
+        <current-version>0.3.0</current-version>
 
         <lombok.version>1.18.10</lombok.version>
+        <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
+        <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
+        <micrometer.version>1.5.2</micrometer.version>
+
         <demo.service.api.version>0.3.0-SNAPSHOT</demo.service.api.version>
-        <catalog.service.api.version>0.1.0-SNAPSHOT</catalog.service.api.version>
+        <service.commonlib.version>0.2.0-SNAPSHOT</service.commonlib.version>
+        <demo.catalog.service.api.version>0.2.0-SNAPSHOT</demo.catalog.service.api.version>
 
         <spring-cloud.version>Hoxton.SR7</spring-cloud.version>
 
@@ -30,14 +35,55 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+        </dependency>
+
+        <!-- Required: commonlib. Includes metrics, kafka etc-->
+        <dependency>
+            <groupId>com.wine.to.up</groupId>
+            <artifactId>service-common-lib</artifactId>
+            <version>${service.commonlib.version}</version>
+        </dependency>
+
+        <!--Required: metric for monitoring-->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>${micrometer.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!--Required: logging-->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>4.9</version>
+        </dependency>
+
+        <!-- Required: Swagger -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox-swagger2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox-swagger-ui.version}</version>
+        </dependency>
+
+        <!-- Recommended-->
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
-        </dependency>
+
+        <!--Our custom artifacts-->
         <dependency>
             <groupId>com.wine.to.up</groupId>
             <artifactId>demo-service-api</artifactId>
@@ -45,8 +91,8 @@
         </dependency>
         <dependency>
             <groupId>com.wine.to.up</groupId>
-            <artifactId>catalog-service-api</artifactId>
-            <version>${catalog.service.api.version}</version>
+            <artifactId>demo-catalog-service-api</artifactId>
+            <version>${demo.catalog.service.api.version}</version>
         </dependency>
     </dependencies>
 
@@ -121,6 +167,7 @@
                 </dependencies>
 
                 <configuration>
+                    <!-- those 2 properties can be unresolvable locally-->
                     <repository>${env.DOCKER_REPO_HOST}/${project.artifactId}</repository>
                     <tag>${scmBranch}_${current-version}</tag>
                 </configuration>
