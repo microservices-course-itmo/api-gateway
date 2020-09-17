@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: api-gateway
+
+server:
+  port: 8181
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+# Zuul looks for Eureka (Netflix discovery service) by default.
+# Once service are deployed, they are managed by Docker Swarm discovery service and Eureka is not used
+ribbon:
+  eureka:
+    enabled: false
+zuul:
+  routes:
+    demo-service:
+      path: /demo-service/**
+    demo-catalog-service:
+      path: /demo-catalog-service/**
+  # ignore all services except ones that are explicitly mapped
+  ignored-services: '*'
+
