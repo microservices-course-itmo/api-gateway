@@ -2,11 +2,15 @@ package com.wine.to.up.apigateway.service.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import com.wine.to.up.apigateway.service.jwt.JwtTokenProvider;
 import com.wine.to.up.apigateway.service.service.TokenService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 
@@ -19,7 +23,7 @@ public class CheckTokenFilter extends ZuulFilter {
     public boolean shouldFilter() {
         String endpointToFilter = RequestContext.getCurrentContext().getRequest().getRequestURI();
         endpointToFilter = endpointToFilter.substring(0, endpointToFilter.indexOf("/", 1));
-        boolean shouldFilter = "/user-service".equals(endpointToFilter);
+        boolean shouldFilter = "/user-service".equals(endpointToFilter) || endpointToFilter.contains("parser");
         return !shouldFilter;
     }
 
@@ -34,7 +38,15 @@ public class CheckTokenFilter extends ZuulFilter {
         if (tokenService.containsToken(accessToken)){
             return null;
         } else{
-           tokenService.sendValidateTokenRequestToUserService(accessToken);
+           boolean isValidated = tokenService.sendValidateTokenRequestToUserService(accessToken);
+           if (isValidated) {
+               String role = JwtTokenProvider.getRole(accessToken);
+               String id = JwtTokenProvider.getId(accessToken);
+               String date = JwtTokenProvider.getExpirationDate(accessToken).toString();
+               context.addZuulRequestHeader("id", id);
+               context.addZuulRequestHeader("role", role);
+               context.addZuulRequestHeader("expirationDate", date);
+           }
         }
         //TODO: remove return
         return null;

@@ -14,11 +14,11 @@ public class JwtTokenProvider {
         return getTokenBody(token).getExpiration();
     }
 
-    public String getRole(String token){
+    public static String getRole(String token){
         return (String) getTokenBody(token).get("role");
     }
 
-    public String getId(String token){
+    public static String getId(String token){
         return (String) getTokenBody(token).get("id");
     }
 

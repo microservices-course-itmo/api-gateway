@@ -17,10 +17,20 @@ ribbon:
     enabled: false
 zuul:
   routes:
-    demo-service:
-      path: /demo-service/**
-    demo-catalog-service:
-      path: /demo-catalog-service/**
+    user-service:
+      path: /user-service/**
+    am-parser-service:
+      path: /am-parser-service/**
+    winelab-parser-service:
+      path: /winelab-parser-service/**
+    simple-parser-service:
+      path: /simple-parser-service/**
+    winestyle-parser-service:
+      path: /winestyle-parser-service/**
+    crossroad-parser-service:
+      path: /crossroad-parser-service/**
+    lenta-parser-service:
+      path: /lenta-parser-service/**
   # ignore all services except ones that are explicitly mapped
   ignored-services: '*'
 

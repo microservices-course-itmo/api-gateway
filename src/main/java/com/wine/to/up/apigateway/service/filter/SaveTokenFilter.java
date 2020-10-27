@@ -6,8 +6,8 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import com.wine.to.up.apigateway.service.jwt.JwtTokenProvider;
-import com.wine.to.up.apigateway.service.model.AuthenticationResponseModel;
 import com.wine.to.up.apigateway.service.service.TokenService;
+import com.wine.to.up.user.service.api.dto.AuthenticationResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
@@ -39,8 +39,7 @@ public class SaveTokenFilter extends ZuulFilter {
     public boolean shouldFilter() {
         String endpointToFilter = RequestContext.getCurrentContext().getRequest().getRequestURI();
         endpointToFilter = endpointToFilter.substring(0, endpointToFilter.indexOf("/", 1));
-        boolean shouldFilter = "/user-service".equals(endpointToFilter);
-        return shouldFilter;
+        return "/user-service".equals(endpointToFilter);
     }
 
     @SneakyThrows
@@ -59,8 +58,10 @@ public class SaveTokenFilter extends ZuulFilter {
             context.setResponseBody(responseData);
 
             ObjectMapper objectMapper = new ObjectMapper();
-            AuthenticationResponseModel userServiceResponse = objectMapper
-                    .readValue(context.getResponseBody(), AuthenticationResponseModel.class);
+            AuthenticationResponse userServiceResponse = objectMapper
+                    .readValue(context.getResponseBody(), AuthenticationResponse.class);
+
+            System.out.println(userServiceResponse.getAccessToken());
 
             tokenService.addToken(userServiceResponse.getAccessToken());
 
