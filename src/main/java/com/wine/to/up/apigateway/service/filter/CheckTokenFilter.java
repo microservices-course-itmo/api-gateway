@@ -36,7 +36,12 @@ public class CheckTokenFilter extends ZuulFilter {
         String accessToken = request.getHeader("accessToken");
 
         if (tokenService.containsToken(accessToken)){
-            return null;
+            String role = JwtTokenProvider.getRole(accessToken);
+            String id = JwtTokenProvider.getId(accessToken);
+            String date = JwtTokenProvider.getExpirationDate(accessToken).toString();
+            context.addZuulRequestHeader("id", id);
+            context.addZuulRequestHeader("role", role);
+            context.addZuulRequestHeader("expirationDate", date);
         } else{
            boolean isValidated = tokenService.sendValidateTokenRequestToUserService(accessToken);
            if (isValidated) {
