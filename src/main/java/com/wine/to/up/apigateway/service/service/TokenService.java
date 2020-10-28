@@ -28,14 +28,10 @@ public class TokenService {
     }
 
     public boolean sendValidateTokenRequestToUserService(String token){
-        try {
-            ResponseEntity<Void> responseEntity = serviceFeignClient.validate(token);
-            if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
-                addToken(token);
-                return true;
-            }
-        } catch (FeignException e) {
-            return false;
+        ResponseEntity<Void> responseEntity = serviceFeignClient.validate(token);
+        if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
+            addToken(token);
+            return true;
         }
         return false;
     }
