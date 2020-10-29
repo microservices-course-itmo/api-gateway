@@ -37,9 +37,10 @@ public class SaveTokenFilter extends ZuulFilter {
 
     @Override
     public boolean shouldFilter() {
-        String endpointToFilter = RequestContext.getCurrentContext().getRequest().getRequestURI();
+        /*String endpointToFilter = RequestContext.getCurrentContext().getRequest().getRequestURI();
         endpointToFilter = endpointToFilter.substring(0, endpointToFilter.indexOf("/", 1));
-        return "/user-service".equals(endpointToFilter);
+        return "/user-service".equals(endpointToFilter);*/
+        return false;
     }
 
     @SneakyThrows
