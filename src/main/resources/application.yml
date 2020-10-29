@@ -23,6 +23,7 @@ zuul:
       path: /demo-catalog-service/**
     user-service:
       path: /user-service/**
+      serviceId: user-service
     catalog-service:
       path: /catalog-service/**
     am-parser-service:
