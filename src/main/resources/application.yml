@@ -17,8 +17,14 @@ ribbon:
     enabled: false
 zuul:
   routes:
+    demo-service:
+      path: /demo-service/**
+    demo-catalog-service:
+      path: /demo-catalog-service/**
     user-service:
       path: /user-service/**
+    catalog-service:
+      path: /catalog-service/**
     am-parser-service:
       path: /am-parser-service/**
     winelab-parser-service:

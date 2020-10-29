@@ -4,5 +4,21 @@ zuul:
       url: http://demo-service:8080
     demo-catalog-service:
       url: http://demo-catalog-service:8080
+    user-service:
+      url: http://user-service:8080
+    am-parser-service:
+      url: http://am-parser-service:8080
+    winelab-parser-service:
+      url: http://winelab-parser-service:8080
+    simple-parser-service:
+      url: http://simple-parser-service:8080
+    winestyle-parser-service:
+      url: http://winestyle-parser-service:8080
+    crossroad-parser-service:
+      url: http://crossroad-parser-service:8080
+    lenta-parser-service:
+      url: http://lenta-parser-service:8080
+    catalog-service:
+      url: http://catalog-service:8080
 server:
   port: 8080
