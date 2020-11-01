@@ -17,8 +17,8 @@ ribbon:
     enabled: false
 zuul:
   host:
-    socket-timeout-millis: 60000
-    connect-timeout-millis: 60000
+    socket-timeout-millis: 180000
+    connect-timeout-millis: 180000
   routes:
     demo-service:
       path: /demo-service/**
