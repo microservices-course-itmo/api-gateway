@@ -21,11 +21,12 @@ public class CheckTokenFilter extends ZuulFilter {
 
     @Override
     public boolean shouldFilter() {
-        /*String endpointToFilter = RequestContext.getCurrentContext().getRequest().getRequestURI();
+        String endpointToFilter = RequestContext.getCurrentContext().getRequest().getRequestURI();
+        if (endpointToFilter.contains("swagger")|| endpointToFilter.contains("api-docs"))
+            return false;
         endpointToFilter = endpointToFilter.substring(0, endpointToFilter.indexOf("/", 1));
         boolean shouldFilter = "/user-service".equals(endpointToFilter) || endpointToFilter.contains("parser");
-        return !shouldFilter;*/
-        return false;
+        return !shouldFilter;
     }
 
     @Override
