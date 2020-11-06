@@ -38,10 +38,7 @@ public class SaveTokenFilter extends ZuulFilter {
     @Override
     public boolean shouldFilter() {
         String endpointToFilter = RequestContext.getCurrentContext().getRequest().getRequestURI();
-        if (endpointToFilter.contains("swagger")|| endpointToFilter.contains("api-docs"))
-            return false;
-        endpointToFilter = endpointToFilter.substring(0, endpointToFilter.indexOf("/", 1));
-        return "/user-service".equals(endpointToFilter);
+        return (endpointToFilter.contains("/user-service/login") || endpointToFilter.contains("/user-service/refresh"));
     }
 
     @SneakyThrows
