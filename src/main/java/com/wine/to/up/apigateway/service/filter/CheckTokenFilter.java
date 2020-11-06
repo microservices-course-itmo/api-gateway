@@ -54,6 +54,7 @@ public class CheckTokenFilter extends ZuulFilter {
                context.addZuulRequestHeader("role", role);
                context.addZuulRequestHeader("expirationDate", date);
            } else{
+               context.unset();
                context.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
            }
         }
