@@ -5,6 +5,7 @@ import com.netflix.zuul.context.RequestContext;
 import com.wine.to.up.apigateway.service.jwt.JwtTokenProvider;
 import com.wine.to.up.apigateway.service.service.TokenService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,6 +53,8 @@ public class CheckTokenFilter extends ZuulFilter {
                context.addZuulRequestHeader("id", id);
                context.addZuulRequestHeader("role", role);
                context.addZuulRequestHeader("expirationDate", date);
+           } else{
+               context.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
            }
         }
         //TODO: remove return
