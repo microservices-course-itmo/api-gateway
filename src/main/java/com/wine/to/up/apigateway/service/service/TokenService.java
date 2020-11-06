@@ -1,5 +1,6 @@
 package com.wine.to.up.apigateway.service.service;
 
+import com.netflix.zuul.exception.ZuulException;
 import com.wine.to.up.apigateway.service.feign.ServiceFeignClient;
 import com.wine.to.up.apigateway.service.repository.UserTokenRepository;
 import feign.FeignException;
@@ -28,11 +29,16 @@ public class TokenService {
     }
 
     public boolean sendValidateTokenRequestToUserService(String token){
-        ResponseEntity<Void> responseEntity = serviceFeignClient.validate(token);
-        if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
-            addToken(token);
-            return true;
+        try{
+            ResponseEntity<Void> responseEntity = serviceFeignClient.validate(token);
+            if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
+                addToken(token);
+                return true;
+            }
+        } catch (Exception e){
+            return false;
         }
+
         return false;
     }
 
