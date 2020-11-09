@@ -35,31 +35,37 @@ public class CheckTokenFilter extends ZuulFilter {
 
         HttpServletRequest request = context.getRequest();
 
-        String accessToken = request.getHeader("accessToken");
+        try {
+            String accessToken = request.getHeader("accessToken");
+            if (accessToken.equals("123")) return null;
 
-        if (accessToken.equals("123")) return null;
-
-        if (tokenService.containsToken(accessToken)){
-            String role = JwtTokenProvider.getRole(accessToken);
-            String id = JwtTokenProvider.getId(accessToken);
-            String date = JwtTokenProvider.getExpirationDate(accessToken).toString();
-            context.addZuulRequestHeader("id", id);
-            context.addZuulRequestHeader("role", role);
-            context.addZuulRequestHeader("expirationDate", date);
-        } else{
-           boolean isValidated = tokenService.sendValidateTokenRequestToUserService(accessToken);
-           if (isValidated) {
-               String role = JwtTokenProvider.getRole(accessToken);
-               String id = JwtTokenProvider.getId(accessToken);
-               String date = JwtTokenProvider.getExpirationDate(accessToken).toString();
-               context.addZuulRequestHeader("id", id);
-               context.addZuulRequestHeader("role", role);
-               context.addZuulRequestHeader("expirationDate", date);
-           } else{
-               context.unset();
-               context.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
-           }
+            if (tokenService.containsToken(accessToken)){
+                String role = JwtTokenProvider.getRole(accessToken);
+                String id = JwtTokenProvider.getId(accessToken);
+                String date = JwtTokenProvider.getExpirationDate(accessToken).toString();
+                context.addZuulRequestHeader("id", id);
+                context.addZuulRequestHeader("role", role);
+                context.addZuulRequestHeader("expirationDate", date);
+            } else{
+                boolean isValidated = tokenService.sendValidateTokenRequestToUserService(accessToken);
+                if (isValidated) {
+                    String role = JwtTokenProvider.getRole(accessToken);
+                    String id = JwtTokenProvider.getId(accessToken);
+                    String date = JwtTokenProvider.getExpirationDate(accessToken).toString();
+                    context.addZuulRequestHeader("id", id);
+                    context.addZuulRequestHeader("role", role);
+                    context.addZuulRequestHeader("expirationDate", date);
+                } else{
+                    context.unset();
+                    context.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
+                }
+            }
+        } catch (Exception e) {
+            context.unset();
+            context.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
         }
+
+
         //TODO: remove return
         return null;
 
