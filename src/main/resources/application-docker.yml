@@ -20,5 +20,7 @@ zuul:
       url: http://lenta-parser-service:8080
     catalog-service:
       url: http://catalog-service:8080
+    deployment-service:
+      url: http://deployment-service:8080
 server:
   port: 8080

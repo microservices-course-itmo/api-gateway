@@ -41,6 +41,8 @@ zuul:
       path: /crossroad-parser-service/**
     lenta-parser-service:
       path: /lenta-parser-service/**
+    deployment-service:
+      path: /deployment-service/**
   # ignore all services except ones that are explicitly mapped
   ignored-services: '*'
 

@@ -20,7 +20,9 @@ public class CheckTokenFilter extends ZuulFilter {
     @Override
     public boolean shouldFilter() {
         String endpointToFilter = RequestContext.getCurrentContext().getRequest().getRequestURI();
-        if (endpointToFilter.contains("swagger")|| endpointToFilter.contains("api-docs"))
+        if (endpointToFilter.contains("swagger")||
+                endpointToFilter.contains("api-docs") ||
+                endpointToFilter.contains("deployment-service"))
             return false;
         endpointToFilter = endpointToFilter.substring(0, endpointToFilter.indexOf("/", 1));
         boolean shouldFilter = "/user-service".equals(endpointToFilter) || endpointToFilter.contains("parser");
