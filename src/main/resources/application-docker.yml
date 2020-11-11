@@ -22,5 +22,7 @@ zuul:
       url: http://catalog-service:8080
     deployment-service:
       url: http://deployment-service:8080
+    notification-service:
+      url: http://notification-service:8080
 server:
   port: 8080
