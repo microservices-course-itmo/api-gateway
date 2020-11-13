@@ -65,9 +65,6 @@ public class CheckTokenFilter extends ZuulFilter {
             context.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
         }
 
-        context.addZuulResponseHeader("Access-Control-Allow-Origin", "*");
-
-
         //TODO: remove return
         return null;
 
