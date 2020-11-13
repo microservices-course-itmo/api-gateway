@@ -1,10 +1,13 @@
 package com.wine.to.up.apigateway.service.filter;
 
+import com.netflix.util.Pair;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.POST_TYPE;
 
@@ -31,7 +34,9 @@ public class AddResponseHeadersFilter extends ZuulFilter {
     public Object run() {
         RequestContext context = RequestContext.getCurrentContext();
 
-        context.addZuulResponseHeader("Access-Control-Allow-Origin", "*");
+        List<Pair<String, String>> zuulResponseHeaders = context.getZuulResponseHeaders();
+        zuulResponseHeaders.add(new Pair("Access-Control-Allow-Origin", "*"));
+        context.put("zuulResponseHeaders", zuulResponseHeaders);
 
         //TODO: remove return
         return null;
