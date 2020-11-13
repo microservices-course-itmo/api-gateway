@@ -33,12 +33,7 @@ public class AddResponseHeadersFilter extends ZuulFilter {
     @Override
     public Object run() {
         RequestContext context = RequestContext.getCurrentContext();
-
-        List<Pair<String, String>> zuulResponseHeaders = context.getZuulResponseHeaders();
-        zuulResponseHeaders.add(new Pair("Access-Control-Allow-Origin", "*"));
-        context.put("zuulResponseHeaders", zuulResponseHeaders);
-
-        //TODO: remove return
+        context.addZuulResponseHeader("Access-Control-Allow-Origin", "*");
         return null;
     }
 }
