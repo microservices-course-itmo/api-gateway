@@ -5,5 +5,5 @@ public interface UserTokenRepository {
 
     void addToken(String token);
 
-    void clearTokens();
+    void clearToken(String token);
 }

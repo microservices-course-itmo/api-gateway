@@ -1,12 +1,12 @@
 package com.wine.to.up.apigateway.service.repository;
 
 
-import com.wine.to.up.apigateway.service.jwt.JwtTokenProvider;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Getter
@@ -15,7 +15,7 @@ public class UserTokenRepositoryImpl implements UserTokenRepository {
     private Set<String> tokens;
 
     public UserTokenRepositoryImpl() {
-        this.tokens = new HashSet<>();
+        this.tokens = ConcurrentHashMap.newKeySet();
     }
 
     @Override
@@ -29,7 +29,7 @@ public class UserTokenRepositoryImpl implements UserTokenRepository {
     }
 
     @Override
-    public void clearTokens(){
-        tokens.removeIf(token -> JwtTokenProvider.getExpirationDate(token).before(new Date()));
+    public void clearToken(String token){
+        tokens.remove(token);
     }
 }

@@ -5,8 +5,9 @@ import com.google.common.io.CharStreams;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
-import com.wine.to.up.apigateway.service.jwt.JwtTokenProvider;
-import com.wine.to.up.apigateway.service.service.TokenService;
+import com.wine.to.up.apigateway.service.repository.UserTokenRepository;
+import com.wine.to.up.commonlib.annotations.InjectEventLogger;
+import com.wine.to.up.commonlib.logging.EventLogger;
 import com.wine.to.up.user.service.api.dto.AuthenticationResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -15,14 +16,16 @@ import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Map;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.POST_TYPE;
 
 @RequiredArgsConstructor
 @Component
 public class SaveTokenFilter extends ZuulFilter {
-    private final TokenService tokenService;
+    @InjectEventLogger
+    private EventLogger eventLogger;
+
+    private final UserTokenRepository userTokenRepository;
 
 
     @Override
@@ -60,16 +63,14 @@ public class SaveTokenFilter extends ZuulFilter {
             AuthenticationResponse userServiceResponse = objectMapper
                     .readValue(context.getResponseBody(), AuthenticationResponse.class);
 
-            System.out.println(userServiceResponse.getAccessToken());
 
-            tokenService.addToken(userServiceResponse.getAccessToken());
+            userTokenRepository.addToken(userServiceResponse.getAccessToken());
 
         }
         catch (Exception e) {
             throw new ZuulException(e, HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
         }
 
-        //TODO: remove return
         return null;
     }
 }

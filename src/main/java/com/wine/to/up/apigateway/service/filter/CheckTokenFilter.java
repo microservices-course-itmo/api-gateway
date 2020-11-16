@@ -3,19 +3,30 @@ package com.wine.to.up.apigateway.service.filter;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.wine.to.up.apigateway.service.jwt.JwtTokenProvider;
-import com.wine.to.up.apigateway.service.service.TokenService;
+import com.wine.to.up.apigateway.service.logging.GatewayNotableEvents;
+import com.wine.to.up.apigateway.service.repository.UserTokenRepository;
+import com.wine.to.up.commonlib.annotations.InjectEventLogger;
+import com.wine.to.up.commonlib.logging.EventLogger;
+import com.wine.to.up.user.service.api.feign.AuthenticationServiceClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 
 @RequiredArgsConstructor
 @Component
 public class CheckTokenFilter extends ZuulFilter {
-    private final TokenService tokenService;
+    @InjectEventLogger
+    private EventLogger eventLogger;
+
+    private final UserTokenRepository userTokenRepository;
+
+    private final AuthenticationServiceClient authenticationServiceClient;
+
 
     @Override
     public boolean shouldFilter() {
@@ -37,37 +48,40 @@ public class CheckTokenFilter extends ZuulFilter {
 
         try {
             String accessToken = request.getHeader("accessToken");
-            if (accessToken.equals("123")) return null;
+            if (accessToken.equals("123")) {
+                eventLogger.info(GatewayNotableEvents.DEFAULT_HEADER);
+                return null;
+            }
 
-            if (tokenService.containsToken(accessToken)){
-                String role = JwtTokenProvider.getRole(accessToken);
-                String id = JwtTokenProvider.getId(accessToken);
-                String date = JwtTokenProvider.getExpirationDate(accessToken).toString();
-                context.addZuulRequestHeader("id", id);
-                context.addZuulRequestHeader("role", role);
-                context.addZuulRequestHeader("expirationDate", date);
-            } else{
-                boolean isValidated = tokenService.sendValidateTokenRequestToUserService(accessToken);
-                if (isValidated) {
-                    String role = JwtTokenProvider.getRole(accessToken);
-                    String id = JwtTokenProvider.getId(accessToken);
-                    String date = JwtTokenProvider.getExpirationDate(accessToken).toString();
-                    context.addZuulRequestHeader("id", id);
-                    context.addZuulRequestHeader("role", role);
-                    context.addZuulRequestHeader("expirationDate", date);
-                } else{
-                    context.unset();
-                    context.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
+            if (userTokenRepository.containsToken(accessToken)) {
+                if (JwtTokenProvider.getExpirationDate(accessToken).after(new Date())) {
+                    addHeaders(context, accessToken);
+                    return null;
+                } else {
+                    eventLogger.info(GatewayNotableEvents.TOKEN_EXPIRED, accessToken);
+                    userTokenRepository.clearToken(accessToken);
                 }
             }
+            authenticationServiceClient.validate(accessToken);
+            addHeaders(context, accessToken);
+            userTokenRepository.addToken(accessToken);
         } catch (Exception e) {
             context.unset();
             context.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
+            eventLogger.error(GatewayNotableEvents.AUTH_ERROR, "User is unauthorized");
         }
 
-        //TODO: remove return
         return null;
 
+    }
+
+    private void addHeaders(RequestContext context, String accessToken) {
+        String role = JwtTokenProvider.getRole(accessToken);
+        String id = JwtTokenProvider.getId(accessToken);
+        String date = JwtTokenProvider.getExpirationDate(accessToken).toString();
+        context.addZuulRequestHeader("id", id);
+        context.addZuulRequestHeader("role", role);
+        context.addZuulRequestHeader("expirationDate", date);
     }
 
     @Override
