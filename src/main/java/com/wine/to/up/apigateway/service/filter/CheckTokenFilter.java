@@ -20,6 +20,8 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
 @RequiredArgsConstructor
 @Component
 public class CheckTokenFilter extends ZuulFilter {
+
+    @SuppressWarnings("unused")
     @InjectEventLogger
     private EventLogger eventLogger;
 
