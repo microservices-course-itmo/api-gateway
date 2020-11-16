@@ -1,5 +1,6 @@
 package com.wine.to.up.apigateway.service.filter;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.CharStreams;
 import com.netflix.zuul.ZuulFilter;
@@ -62,6 +63,7 @@ public class SaveTokenFilter extends ZuulFilter {
             context.setResponseBody(responseData);
 
             ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             AuthenticationResponse userServiceResponse = objectMapper
                     .readValue(context.getResponseBody(), AuthenticationResponse.class);
 
