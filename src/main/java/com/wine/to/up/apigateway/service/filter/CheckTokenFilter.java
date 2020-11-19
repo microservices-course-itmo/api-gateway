@@ -46,7 +46,6 @@ public class CheckTokenFilter extends ZuulFilter {
 
     @Override
     public Object run(){
-        log.info("Hello Julia");
         RequestContext context = RequestContext.getCurrentContext();
 
         HttpServletRequest request = context.getRequest();
