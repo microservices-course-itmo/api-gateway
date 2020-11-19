@@ -70,9 +70,9 @@ public class CheckTokenFilter extends ZuulFilter {
             addHeaders(context, accessToken);
             userTokenRepository.addToken(accessToken);
         } catch (Exception e) {
+            log.error("User is unauthorized");
             context.unset();
             context.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
-            log.error("User is unauthorized");
         }
 
         return null;

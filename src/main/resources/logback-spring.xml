@@ -32,5 +32,9 @@
             <appender-ref ref="STASH"/>
             <appender-ref ref="CONSOLE"/>
         </root>
+        <root level="ERROR">
+            <appender-ref ref="STASH"/>
+            <appender-ref ref="CONSOLE"/>
+        </root>
     </springProfile>
 </configuration>
