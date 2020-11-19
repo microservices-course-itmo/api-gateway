@@ -9,6 +9,7 @@ import com.wine.to.up.commonlib.annotations.InjectEventLogger;
 import com.wine.to.up.commonlib.logging.EventLogger;
 import com.wine.to.up.user.service.api.feign.AuthenticationServiceClient;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class CheckTokenFilter extends ZuulFilter {
 
     @SuppressWarnings("unused")
@@ -51,7 +53,7 @@ public class CheckTokenFilter extends ZuulFilter {
         try {
             String accessToken = request.getHeader("accessToken");
             if (accessToken.equals("123")) {
-                eventLogger.info(GatewayNotableEvents.DEFAULT_HEADER);
+                log.info("Default header is set");
                 return null;
             }
 
@@ -60,7 +62,7 @@ public class CheckTokenFilter extends ZuulFilter {
                     addHeaders(context, accessToken);
                     return null;
                 } else {
-                    eventLogger.info(GatewayNotableEvents.TOKEN_EXPIRED, accessToken);
+                    log.info("Token " + accessToken + " is expired");
                     userTokenRepository.clearToken(accessToken);
                 }
             }
@@ -70,7 +72,7 @@ public class CheckTokenFilter extends ZuulFilter {
         } catch (Exception e) {
             context.unset();
             context.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
-            eventLogger.error(GatewayNotableEvents.AUTH_ERROR, "User is unauthorized");
+            log.error("User is unauthorized");
         }
 
         return null;

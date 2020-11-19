@@ -14,6 +14,7 @@ import com.wine.to.up.commonlib.logging.EventLogger;
 import com.wine.to.up.user.service.api.dto.AuthenticationResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,7 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class SaveTokenFilter extends ZuulFilter {
 
     @SuppressWarnings("unused")
@@ -69,7 +71,7 @@ public class SaveTokenFilter extends ZuulFilter {
             AuthenticationResponse userServiceResponse = objectMapper
                     .readValue(context.getResponseBody(), AuthenticationResponse.class);
 
-
+            log.info("User token is added");
             userTokenRepository.addToken(userServiceResponse.getAccessToken());
 
         }
