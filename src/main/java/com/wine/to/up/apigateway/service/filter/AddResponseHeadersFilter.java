@@ -34,6 +34,8 @@ public class AddResponseHeadersFilter extends ZuulFilter {
     public Object run() {
         RequestContext context = RequestContext.getCurrentContext();
         context.addZuulResponseHeader("Access-Control-Allow-Origin", "*");
+        context.addZuulResponseHeader("Access-Control-Allow-Headers", "Content-Type");
+        context.addZuulResponseHeader("Access-Control-Allow-Methods", "OPTION, GET, POST, PUT, DELETE");
         return null;
     }
 }
