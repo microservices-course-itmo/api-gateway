@@ -73,6 +73,7 @@ public class CheckTokenFilter extends ZuulFilter {
             log.error("User is unauthorized");
             context.unset();
             context.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
+            return null;
         }
 
         return null;
