@@ -4,7 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.wine.to.up</groupId>
     <artifactId>api-gateway</artifactId>
     <version>${current-version}-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -24,7 +23,7 @@
         <micrometer.version>1.5.2</micrometer.version>
 
         <demo.service.api.version>0.3.0-SNAPSHOT</demo.service.api.version>
-        <service.commonlib.version>0.2.0-SNAPSHOT</service.commonlib.version>
+        <service.commonlib.version>0.2.2-SNAPSHOT</service.commonlib.version>
         <demo.catalog.service.api.version>0.2.0-SNAPSHOT</demo.catalog.service.api.version>
 
         <spring-cloud.version>Hoxton.SR7</spring-cloud.version>

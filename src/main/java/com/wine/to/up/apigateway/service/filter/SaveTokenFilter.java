@@ -1,5 +1,7 @@
 package com.wine.to.up.apigateway.service.filter;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.CharStreams;
@@ -63,7 +65,7 @@ public class SaveTokenFilter extends ZuulFilter {
             context.setResponseBody(responseData);
 
             ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
             AuthenticationResponse userServiceResponse = objectMapper
                     .readValue(context.getResponseBody(), AuthenticationResponse.class);
 
