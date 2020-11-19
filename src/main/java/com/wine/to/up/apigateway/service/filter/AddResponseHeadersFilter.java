@@ -5,12 +5,14 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.POST_TYPE;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class AddResponseHeadersFilter extends ZuulFilter {
@@ -32,10 +34,15 @@ public class AddResponseHeadersFilter extends ZuulFilter {
     @SneakyThrows
     @Override
     public Object run() {
-        RequestContext context = RequestContext.getCurrentContext();
-        context.addZuulResponseHeader("Access-Control-Allow-Origin", "*");
-        context.addZuulResponseHeader("Access-Control-Allow-Headers", "Content-Type");
-        context.addZuulResponseHeader("Access-Control-Allow-Methods", "OPTION, GET, POST, PUT, DELETE");
+        try{
+            RequestContext context = RequestContext.getCurrentContext();
+            context.addZuulResponseHeader("Access-Control-Allow-Origin", "*");
+            context.addZuulResponseHeader("Access-Control-Allow-Headers", "Content-Type");
+            context.addZuulResponseHeader("Access-Control-Allow-Methods", "OPTION, GET, POST, PUT, DELETE");
+            return null;
+        } catch (NullPointerException e) {
+            log.error("No body");
+        }
         return null;
     }
 }
