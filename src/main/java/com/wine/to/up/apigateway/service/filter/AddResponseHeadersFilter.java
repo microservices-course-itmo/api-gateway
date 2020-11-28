@@ -1,6 +1,5 @@
 package com.wine.to.up.apigateway.service.filter;
 
-import com.netflix.util.Pair;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +7,6 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.POST_TYPE;
 
@@ -37,7 +35,7 @@ public class AddResponseHeadersFilter extends ZuulFilter {
         try{
             RequestContext context = RequestContext.getCurrentContext();
             context.addZuulResponseHeader("Access-Control-Allow-Origin", "*");
-            context.addZuulResponseHeader("Access-Control-Allow-Headers", "Content-Type");
+            context.addZuulResponseHeader("Access-Control-Allow-Headers", "Content-Type, accessToken");
             context.addZuulResponseHeader("Access-Control-Allow-Methods", "OPTION, GET, POST, PUT, DELETE");
             return null;
         } catch (NullPointerException e) {
