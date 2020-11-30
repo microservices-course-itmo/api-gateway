@@ -76,7 +76,9 @@ public class SaveTokenFilter extends ZuulFilter {
 
         }
         catch (Exception e) {
-            throw new ZuulException(e, HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+            log.error("User is unauthorized");
+            context.unset();
+            context.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
         }
 
         return null;
