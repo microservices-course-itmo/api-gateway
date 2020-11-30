@@ -76,7 +76,7 @@ public class SaveTokenFilter extends ZuulFilter {
 
         }
         catch (Exception e) {
-            log.error("User is unauthorized");
+            log.error("Authorization failed");
             context.unset();
             context.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
         }

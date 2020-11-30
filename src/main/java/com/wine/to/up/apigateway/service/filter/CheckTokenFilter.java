@@ -10,11 +10,13 @@ import com.wine.to.up.commonlib.logging.EventLogger;
 import com.wine.to.up.user.service.api.feign.AuthenticationServiceClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 
@@ -30,6 +32,9 @@ public class CheckTokenFilter extends ZuulFilter {
     private final UserTokenRepository userTokenRepository;
 
     private final AuthenticationServiceClient authenticationServiceClient;
+
+    @Value("${filter.endpoint.check.no}")
+    private List<String> noFilterPoints;
 
 
     @Override
@@ -60,6 +65,7 @@ public class CheckTokenFilter extends ZuulFilter {
             if (userTokenRepository.containsToken(accessToken)) {
                 if (JwtTokenProvider.getExpirationDate(accessToken).after(new Date())) {
                     addHeaders(context, accessToken);
+                    log.info("Token " + accessToken + " in gateway");
                     return null;
                 } else {
                     log.info("Token " + accessToken + " is expired");
@@ -70,7 +76,7 @@ public class CheckTokenFilter extends ZuulFilter {
             addHeaders(context, accessToken);
             userTokenRepository.addToken(accessToken);
         } catch (Exception e) {
-            log.error("User is unauthorized");
+            log.error("User is not validated in user-service");
             context.unset();
             context.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
         }
