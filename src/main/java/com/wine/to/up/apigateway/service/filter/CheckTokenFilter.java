@@ -33,9 +33,6 @@ public class CheckTokenFilter extends ZuulFilter {
 
     private final AuthenticationServiceClient authenticationServiceClient;
 
-    @Value("${filter.endpoint.check.no}")
-    private List<String> noFilterPoints;
-
 
     @Override
     public boolean shouldFilter() {
