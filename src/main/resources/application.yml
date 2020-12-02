@@ -20,6 +20,8 @@ zuul:
     socket-timeout-millis: 180000
     connect-timeout-millis: 180000
   routes:
+    ml-team-2-service:
+      path: /ml-team-2-service/**
     demo-service:
       path: /demo-service/**
     demo-catalog-service:
