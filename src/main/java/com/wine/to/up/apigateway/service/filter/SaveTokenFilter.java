@@ -50,9 +50,9 @@ public class SaveTokenFilter extends ZuulFilter {
     public boolean shouldFilter() {
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         String endpointToFilter = request.getRequestURI();
+        if (request.getMethod().equals("OPTIONS")) return false;
         return (endpointToFilter.contains("/user-service/login") ||
-                endpointToFilter.contains("/user-service/refresh") ||
-                request.getMethod().equals("OPTIONS"));
+                endpointToFilter.contains("/user-service/refresh"));
     }
 
     @SneakyThrows
