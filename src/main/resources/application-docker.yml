@@ -1,5 +1,7 @@
 zuul:
   routes:
+    ml-team-2-service:
+      url: http://ml-team-2-service:8080
     demo-service:
       url: http://demo-service:8080
     demo-catalog-service:
