@@ -38,13 +38,14 @@ public class CheckTokenFilter extends ZuulFilter {
     public boolean shouldFilter() {
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         String endpointToFilter = request.getRequestURI();
+        log.info("request method " + request.getMethod());
+        log.info(String.valueOf(request.getMethod().equals("OPTIONS")));
         if (endpointToFilter.contains("swagger")||
                 endpointToFilter.contains("api-docs") ||
                 endpointToFilter.contains("deployment-service") ||
                 request.getMethod().equals("OPTIONS") ||
                 endpointToFilter.contains("ml-team-2-service")
-        )
-            return false;
+        ) return false;
         endpointToFilter = endpointToFilter.substring(0, endpointToFilter.indexOf("/", 1));
         boolean shouldFilter = "/user-service".equals(endpointToFilter) || endpointToFilter.contains("parser");
         return !shouldFilter;
