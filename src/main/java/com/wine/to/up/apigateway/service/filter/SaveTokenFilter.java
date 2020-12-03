@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -47,8 +48,11 @@ public class SaveTokenFilter extends ZuulFilter {
 
     @Override
     public boolean shouldFilter() {
-        String endpointToFilter = RequestContext.getCurrentContext().getRequest().getRequestURI();
-        return (endpointToFilter.contains("/user-service/login") || endpointToFilter.contains("/user-service/refresh"));
+        HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
+        String endpointToFilter = request.getRequestURI();
+        return (endpointToFilter.contains("/user-service/login") ||
+                endpointToFilter.contains("/user-service/refresh") ||
+                request.getMethod().equals("OPTIONS"));
     }
 
     @SneakyThrows
@@ -71,8 +75,8 @@ public class SaveTokenFilter extends ZuulFilter {
             AuthenticationResponse userServiceResponse = objectMapper
                     .readValue(context.getResponseBody(), AuthenticationResponse.class);
 
-            log.info("User token is added");
             userTokenRepository.addToken(userServiceResponse.getAccessToken());
+            log.info("User token is added");
 
         }
         catch (Exception e) {
