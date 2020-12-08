@@ -39,13 +39,12 @@ public class CheckTokenFilter extends ZuulFilter {
                 endpointToFilter.contains("api-docs") ||
                 endpointToFilter.contains("deployment-service") ||
                 request.getMethod().equals("OPTIONS") ||
-                endpointToFilter.contains("ml")
+                endpointToFilter.contains("ml") ||
+                endpointToFilter.contains("/user-service/login") ||
+                endpointToFilter.contains("/user-service/refresh") ||
+                endpointToFilter.contains("parser")
         ) return false;
-        endpointToFilter = endpointToFilter.substring(0, endpointToFilter.indexOf("/", 1));
-        boolean shouldFilter = "/user-service/login".equals(endpointToFilter) ||
-                endpointToFilter.contains("parser") ||
-                "/user-service/refresh".equals(endpointToFilter);
-        return !shouldFilter;
+        return true;
     }
 
     @Override
