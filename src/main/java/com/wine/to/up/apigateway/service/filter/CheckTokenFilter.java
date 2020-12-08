@@ -35,17 +35,16 @@ public class CheckTokenFilter extends ZuulFilter {
     public boolean shouldFilter() {
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         String endpointToFilter = request.getRequestURI();
-        log.info("request method " + request.getMethod());
-        log.info(String.valueOf(request.getMethod().equals("OPTIONS")));
         if (endpointToFilter.contains("swagger")||
                 endpointToFilter.contains("api-docs") ||
                 endpointToFilter.contains("deployment-service") ||
                 request.getMethod().equals("OPTIONS") ||
-                endpointToFilter.contains("ml-team-2-service") ||
-                endpointToFilter.contains("ml-description-based-recommendation-service")
+                endpointToFilter.contains("ml")
         ) return false;
         endpointToFilter = endpointToFilter.substring(0, endpointToFilter.indexOf("/", 1));
-        boolean shouldFilter = "/user-service".equals(endpointToFilter) || endpointToFilter.contains("parser");
+        boolean shouldFilter = "/user-service/login".equals(endpointToFilter) ||
+                endpointToFilter.contains("parser") ||
+                "/user-service/refresh".equals(endpointToFilter);
         return !shouldFilter;
     }
 
@@ -56,7 +55,8 @@ public class CheckTokenFilter extends ZuulFilter {
         HttpServletRequest request = context.getRequest();
 
         try {
-            String accessToken = request.getHeader("accessToken");
+            String accessToken = request.getHeader("Authorization").split(" ")[1];
+            log.info(accessToken);
             if (accessToken.equals("123")) {
                 log.info("Default header is set");
                 return null;
@@ -72,13 +72,19 @@ public class CheckTokenFilter extends ZuulFilter {
                     userTokenRepository.clearToken(accessToken);
                 }
             }
-            authenticationServiceClient.validate(accessToken);
-            addHeaders(context, accessToken);
-            userTokenRepository.addToken(accessToken);
+            try {
+                authenticationServiceClient.validate(accessToken);
+                addHeaders(context, accessToken);
+                userTokenRepository.addToken(accessToken);
+            } catch (Exception e){
+                log.error("User is not validated in user-service");
+                context.unset();
+                context.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
+            }
+
         } catch (Exception e) {
-            log.error("User is not validated in user-service");
-            context.unset();
-            context.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
+            log.info("No header");
+            addHeaders(context, "");
         }
 
         return null;
@@ -86,12 +92,15 @@ public class CheckTokenFilter extends ZuulFilter {
     }
 
     private void addHeaders(RequestContext context, String accessToken) {
-        String role = JwtTokenProvider.getRole(accessToken);
-        String id = JwtTokenProvider.getId(accessToken);
-        String date = JwtTokenProvider.getExpirationDate(accessToken).toString();
-        context.addZuulRequestHeader("id", id);
-        context.addZuulRequestHeader("role", role);
-        context.addZuulRequestHeader("expirationDate", date);
+        if (accessToken.equals("")){
+            context.addZuulRequestHeader("id", "");
+            context.addZuulRequestHeader("role", "");
+        } else {
+            String role = JwtTokenProvider.getRole(accessToken);
+            String id = JwtTokenProvider.getId(accessToken);
+            context.addZuulRequestHeader("id", id);
+            context.addZuulRequestHeader("role", role);
+        }
     }
 
     @Override
