@@ -3,20 +3,17 @@ package com.wine.to.up.apigateway.service.filter;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.wine.to.up.apigateway.service.jwt.JwtTokenProvider;
-import com.wine.to.up.apigateway.service.logging.GatewayNotableEvents;
 import com.wine.to.up.apigateway.service.repository.UserTokenRepository;
 import com.wine.to.up.commonlib.annotations.InjectEventLogger;
 import com.wine.to.up.commonlib.logging.EventLogger;
 import com.wine.to.up.user.service.api.feign.AuthenticationServiceClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.List;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 
@@ -44,7 +41,8 @@ public class CheckTokenFilter extends ZuulFilter {
                 endpointToFilter.contains("api-docs") ||
                 endpointToFilter.contains("deployment-service") ||
                 request.getMethod().equals("OPTIONS") ||
-                endpointToFilter.contains("ml-team-2-service")
+                endpointToFilter.contains("ml-team-2-service") ||
+                endpointToFilter.contains("ml-description-based-recommendation-service")
         ) return false;
         endpointToFilter = endpointToFilter.substring(0, endpointToFilter.indexOf("/", 1));
         boolean shouldFilter = "/user-service".equals(endpointToFilter) || endpointToFilter.contains("parser");

@@ -2,8 +2,8 @@ zuul:
   routes:
     ml-team-2-service:
       url: http://ml-team-2-service:80
-    test-service:
-      url: http://localhost:8081
+    ml-description-based-recommendation-service:
+      url: http://ml-description-based-recommendation-service:5000
     demo-service:
       url: http://demo-service:8080
     demo-catalog-service:
