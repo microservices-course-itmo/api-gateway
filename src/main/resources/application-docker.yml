@@ -4,6 +4,8 @@ zuul:
       url: http://ml-team-2-service:80
     ml-description-based-recommendation-service:
       url: http://ml-description-based-recommendation-service:5000
+    ml4-recommendation-service:
+      url: http://ml4-recommendation-service:5000
     ml3-recommendation-service:
       url: http://ml3-recommendation-service:8000
     demo-service:

@@ -26,6 +26,8 @@ zuul:
       path: /ml-team-2-service/**
     ml3-recommendation-service:
       url: /ml3-recommendation-service/**
+    ml4-recommendation-service:
+      url: /ml4-recommendation-service/**
     demo-service:
       path: /demo-service/**
     demo-catalog-service:
