@@ -5,7 +5,7 @@ zuul:
     ml-description-based-recommendation-service:
       url: http://ml-description-based-recommendation-service:5000
     ml4-recommendation-service:
-      url: http://ml4-recommendation-service:5000
+      url: http://segandrec-service:5000
     ml3-recommendation-service:
       url: http://ml3-recommendation-service:8000
     demo-service:

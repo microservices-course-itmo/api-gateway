@@ -27,7 +27,7 @@ zuul:
     ml3-recommendation-service:
       url: /ml3-recommendation-service/**
     ml4-recommendation-service:
-      url: /ml4-recommendation-service/**
+      url: /segandrec-service/**
     demo-service:
       path: /demo-service/**
     demo-catalog-service:
