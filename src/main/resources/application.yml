@@ -16,6 +16,7 @@ ribbon:
   eureka:
     enabled: false
 zuul:
+  sensitiveHeaders:
   host:
     socket-timeout-millis: 180000
     connect-timeout-millis: 180000
@@ -24,7 +25,6 @@ zuul:
       path: /ml-description-based-recommendation-service/**
     ml-team-2-service:
       path: /ml-team-2-service/**
-      sensitiveHeaders:
     ml3-recommendation-service:
       url: /ml3-recommendation-service/**
     ml4-recommendation-service:
