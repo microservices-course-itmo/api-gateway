@@ -24,7 +24,7 @@ zuul:
       path: /ml-description-based-recommendation-service/**
     ml-team-2-service:
       path: /ml-team-2-service/**
-      sensitiveHeaders: Cookie,Set-Cookie
+      sensitiveHeaders: Authorization
     ml3-recommendation-service:
       url: /ml3-recommendation-service/**
     ml4-recommendation-service:
