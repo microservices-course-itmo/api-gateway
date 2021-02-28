@@ -2,11 +2,13 @@ package com.wine.to.up.apigateway.service.controller;
 
 import com.netflix.zuul.context.RequestContext;
 import com.wine.to.up.catalog.service.api.dto.WinePositionTrueResponse;
+import com.wine.to.up.catalog.service.api.feign.FavoriteWinePositionsClient;
 import com.wine.to.up.catalog.service.api.service.FavoriteWinePositionsService;
 import com.wine.to.up.user.service.api.dto.ItemDto;
 import com.wine.to.up.user.service.api.feign.FavoritesServiceClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -21,15 +23,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 @RequestMapping("/favorites")
 @Validated
 @Slf4j
 @Api(value = "ApiGatewayController")
 public class ApiGatewayController {
+
+
     private final FavoritesServiceClient favoritesServiceClient;
 
-    private final FavoriteWinePositionsService favoriteWinePositionsService;
+    private final FavoriteWinePositionsClient favoriteWinePositionsClient;
 
 
     @ApiOperation(value = "Get favourites wine positions",
@@ -42,7 +46,7 @@ public class ApiGatewayController {
 
         List<ItemDto> itemDtos = favoritesServiceClient.findUsersFavorites(accessToken);
         List<String> ids = itemDtos.stream().map(ItemDto::getId).collect(Collectors.toList());
-        return favoriteWinePositionsService.getFavourites(ids);
+        return favoriteWinePositionsClient.getFavourites(ids);
     }
 
 
