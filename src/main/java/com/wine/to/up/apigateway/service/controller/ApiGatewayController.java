@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/favorites")
+@RequestMapping("/catalog-service/favorites")
 @Validated
 @Slf4j
 @Api(value = "ApiGatewayController")
