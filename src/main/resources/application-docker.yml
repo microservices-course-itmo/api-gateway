@@ -1,4 +1,7 @@
 zuul:
+  route:
+    home:
+      url: http://api-gateway:8181
   routes:
     ml-team-2-service:
       url: http://ml-team-2-service:80
