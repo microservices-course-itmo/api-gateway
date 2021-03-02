@@ -43,7 +43,7 @@ public class CheckTokenFilter extends ZuulFilter {
                 endpointToFilter.contains("/user-service/login") ||
                 endpointToFilter.contains("/user-service/refresh") ||
                 endpointToFilter.contains("parser") ||
-                endpointToFilter.contains("/catalog-service/favorites")
+                endpointToFilter.contains("/catalog/favorites")
         ) return false;
         return true;
     }
