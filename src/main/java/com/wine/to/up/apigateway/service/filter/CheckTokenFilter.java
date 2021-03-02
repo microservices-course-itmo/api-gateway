@@ -42,7 +42,8 @@ public class CheckTokenFilter extends ZuulFilter {
                 endpointToFilter.contains("ml") ||
                 endpointToFilter.contains("/user-service/login") ||
                 endpointToFilter.contains("/user-service/refresh") ||
-                endpointToFilter.contains("parser")
+                endpointToFilter.contains("parser") ||
+                endpointToFilter.contains("/catalog-service/favorites")
         ) return false;
         return true;
     }

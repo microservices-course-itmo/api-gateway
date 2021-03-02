@@ -19,12 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/catalog-service/favorites")
+@RequestMapping("/catalog")
 @Validated
 @Slf4j
 @Api(value = "ApiGatewayController")
@@ -38,9 +39,10 @@ public class ApiGatewayController {
 
     @ApiOperation(value = "Get favourites wine positions",
             nickname = "getFavouritesPositions",
-            tags = {"wine-position-true-controller",})
-    @GetMapping("/")
+            tags = {"favorite-positions-controller",})
+    @GetMapping("/favorites")
     public List<WinePositionTrueResponse> getFavourites() {
+        log.info("Got request for favorite positions");
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         String accessToken = request.getHeader("Authorization").split(" ")[1];
 

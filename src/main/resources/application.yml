@@ -15,7 +15,9 @@ management:
 ribbon:
   eureka:
     enabled: false
+
 zuul:
+  route.home: /**
   sensitiveHeaders:
   host:
     socket-timeout-millis: 180000
