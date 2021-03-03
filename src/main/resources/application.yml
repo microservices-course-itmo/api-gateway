@@ -22,9 +22,9 @@ zuul:
     socket-timeout-millis: 180000
     connect-timeout-millis: 180000
   routes:
-    favorites:
-      path: /catalog-service/favorites/
-      #url: forward:/catalog-service/favorites/
+    api-gateway:
+      path: /catalog-service/favorites/**
+      #url: forward:/catalog-service/favorites/**
     ml-description-based-recommendation-service:
       path: /ml-description-based-recommendation-service/**
     ml-team-2-service:
