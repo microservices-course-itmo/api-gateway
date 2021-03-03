@@ -24,7 +24,7 @@ zuul:
   routes:
     favorites:
       path: /catalog-service/favorites/
-      url: forward:http://api-gateway:8080/catalog-service/favorites/
+      #url: forward:/catalog-service/favorites/
     ml-description-based-recommendation-service:
       path: /ml-description-based-recommendation-service/**
     ml-team-2-service:
