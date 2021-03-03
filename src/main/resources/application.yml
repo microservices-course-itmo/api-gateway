@@ -16,6 +16,7 @@ ribbon:
   eureka:
     enabled: false
 
+
 zuul:
   sensitiveHeaders:
   host:
@@ -24,7 +25,7 @@ zuul:
   routes:
     api-gateway:
       path: /catalog-service/favorites/**
-      #url: forward:/catalog-service/favorites/**
+      url: forward:/catalog-service/favorites/
     ml-description-based-recommendation-service:
       path: /ml-description-based-recommendation-service/**
     ml-team-2-service:
