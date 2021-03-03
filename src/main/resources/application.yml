@@ -18,6 +18,8 @@ ribbon:
 
 
 zuul:
+  debug:
+    request: true
   sensitiveHeaders:
   host:
     socket-timeout-millis: 180000
