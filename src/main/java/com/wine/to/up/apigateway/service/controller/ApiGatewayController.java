@@ -1,6 +1,7 @@
 package com.wine.to.up.apigateway.service.controller;
 
 import com.netflix.zuul.context.RequestContext;
+import com.wine.to.up.apigateway.service.jwt.JwtTokenProvider;
 import com.wine.to.up.catalog.service.api.dto.WinePositionTrueResponse;
 import com.wine.to.up.catalog.service.api.feign.FavoriteWinePositionsClient;
 import com.wine.to.up.catalog.service.api.service.FavoriteWinePositionsService;
@@ -46,7 +47,10 @@ public class ApiGatewayController {
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         String accessToken = request.getHeader("Authorization").split(" ")[1];
 
-        List<ItemDto> itemDtos = favoritesServiceClient.findUsersFavorites(accessToken);
+        String id = JwtTokenProvider.getId(accessToken);
+        String role = JwtTokenProvider.getRole(accessToken);
+
+        List<ItemDto> itemDtos = favoritesServiceClient.findUsersFavorites(id, role);
         List<String> ids = itemDtos.stream().map(ItemDto::getId).collect(Collectors.toList());
         return favoriteWinePositionsClient.getFavourites(ids);
     }
