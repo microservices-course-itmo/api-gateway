@@ -30,7 +30,7 @@
             </encoder>
         </appender>
 
-        <root level="TRACE">
+        <root level="INFO">
             <appender-ref ref="STASH"/>
             <appender-ref ref="CONSOLE"/>
         </root>
