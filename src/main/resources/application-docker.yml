@@ -1,7 +1,7 @@
 zuul:
   routes:
-    #api-gateway:
-     # url: forward:/catalog-service/favorites/
+    api-gateway:
+      url: forward:/catalog-service/favorites/
     ml-team-2-service:
       url: http://ml-team-2-service:80
     ml-description-based-recommendation-service:
