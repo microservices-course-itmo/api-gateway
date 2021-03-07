@@ -21,6 +21,7 @@
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
         <micrometer.version>1.5.2</micrometer.version>
+        <modelmapper.version>2.3.5</modelmapper.version>
 
         <demo.service.api.version>0.3.0-SNAPSHOT</demo.service.api.version>
         <service.commonlib.version>0.2.2-SNAPSHOT</service.commonlib.version>
@@ -36,6 +37,11 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
         <!-- Required: commonlib. Includes metrics, kafka etc-->
@@ -54,6 +60,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>${modelmapper.version}</version>
         </dependency>
 
         <!--Required: logging-->

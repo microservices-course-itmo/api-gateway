@@ -1,3 +1,12 @@
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: ${S_EUREKA_HOST}
+
 zuul:
   routes:
     api-gateway:
