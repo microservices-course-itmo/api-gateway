@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -75,7 +76,7 @@ public class ApiGatewayController {
         String role = JwtTokenProvider.getRole(accessToken);
 
         List<ItemDto> itemDtos = favoritesServiceClient.findUsersFavorites(id, role);
-        List<String> ids = itemDtos.stream().map(ItemDto::getId).collect(Collectors.toList());
+        Set<String> ids = itemDtos.stream().map(ItemDto::getId).collect(Collectors.toSet());
         List<WinePositionTrueResponse> positions = winePositionClient.getAllWinePositionsTrue(page, amount, sortByPair, filterBy);
         return favoritePositionService.convertWinePositions(positions, ids);
     }

@@ -5,13 +5,14 @@ import com.wine.to.up.catalog.service.api.dto.WinePositionTrueResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class FavoritePositionService {
     public List<WinePositionWithFavorites> convertWinePositions(
             List<WinePositionTrueResponse> winePositionTrueResponses,
-            List<String> favoriteIds){
+            Set<String> favoriteIds){
         return winePositionTrueResponses.stream().map(response -> new WinePositionWithFavorites(
                 response.getWine_position_id(),
                 response.getShop(),
