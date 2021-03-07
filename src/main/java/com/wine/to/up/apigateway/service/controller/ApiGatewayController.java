@@ -55,5 +55,26 @@ public class ApiGatewayController {
         return favoriteWinePositionsClient.getFavourites(ids);
     }
 
+    @ApiOperation(value = "Get favourites wine positions",
+            nickname = "getFavouritesPositions",
+            tags = {"favorite-positions-controller",})
+    @GetMapping("/position/true/trueSettings")
+    public List<WinePositionWithFavorites> getWinePositions(@RequestParam(required = false) String page,
+                                                            @RequestParam(required = false) String amount,
+                                                            @RequestParam(required = false) List<String> sortByPair,
+                                                            @RequestParam(required = false) String filterBy) {
+        log.info("Got request for favorite positions");
+        HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
+        String accessToken = request.getHeader("Authorization").split(" ")[1];
+
+        String id = JwtTokenProvider.getId(accessToken);
+        String role = JwtTokenProvider.getRole(accessToken);
+
+        List<ItemDto> itemDtos = favoritesServiceClient.findUsersFavorites(id, role);
+        List<String> ids = itemDtos.stream().map(ItemDto::getId).collect(Collectors.toList());
+        List<WinePositionTrueResponse> positions = winePositionClient.getAllWinePositionsTrue(page, amount, sortByPair, filterBy);
+        List<WinePositionWithFavorites> newPositions = favoritePositionService.convertWinePositions(positions, ids);
+        return favoritePositionService.getFavorites(newPositions);
+    }
 
 }
