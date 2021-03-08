@@ -111,7 +111,7 @@
         <dependency>
             <groupId>com.wine.to.up</groupId>
             <artifactId>catalog-service-api</artifactId>
-            <version>1.8.0-SNAPSHOT</version>
+            <version>1.9.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
