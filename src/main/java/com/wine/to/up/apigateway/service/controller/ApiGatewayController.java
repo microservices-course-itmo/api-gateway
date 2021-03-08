@@ -55,6 +55,8 @@ public class ApiGatewayController {
         String role = JwtTokenProvider.getRole(accessToken);
 
         List<ItemDto> itemDtos = favoritesServiceClient.findUsersFavorites(id, role);
+
+        log.info("Favorite positions amount: " + itemDtos.size());
         List<String> ids = itemDtos.stream().map(ItemDto::getId).collect(Collectors.toList());
 
         return favoriteWinePositionsClient.getFavourites(ids);
@@ -68,7 +70,7 @@ public class ApiGatewayController {
                                                             @RequestParam(required = false) String amount,
                                                             @RequestParam(required = false) List<String> sortByPair,
                                                             @RequestParam(required = false) String filterBy) {
-        log.info("Got request for favorite positions");
+        log.info("Got request for positions with settings");
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         String accessToken = request.getHeader("Authorization").split(" ")[1];
 
@@ -78,6 +80,9 @@ public class ApiGatewayController {
         List<ItemDto> itemDtos = favoritesServiceClient.findUsersFavorites(id, role);
         Set<String> ids = itemDtos.stream().map(ItemDto::getId).collect(Collectors.toSet());
         List<WinePositionTrueResponse> positions = winePositionClient.getAllWinePositionsTrue(page, amount, sortByPair, filterBy);
+
+        log.info("Wine positions: " + positions.size());
+
         return favoritePositionService.convertWinePositions(positions, ids);
     }
 
