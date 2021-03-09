@@ -65,7 +65,7 @@ public class ApiGatewayController {
     @ApiOperation(value = "Get favourites wine positions",
             nickname = "getFavouritesPositions",
             tags = {"favorite-positions-controller",})
-    @GetMapping("/position/true/trueSettings")
+    @GetMapping("/position/true/settings")
     public List<WinePositionWithFavorites> getWinePositions(@RequestParam(required = false) String page,
                                                             @RequestParam(required = false) String amount,
                                                             @RequestParam(required = false) List<String> sortByPair,
