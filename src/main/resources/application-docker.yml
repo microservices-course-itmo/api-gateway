@@ -1,5 +1,7 @@
 zuul:
   routes:
+    eureka-service:
+      url: http://eureka-service:8080
     api-gateway:
       url: forward:/catalog-service/favorites/
     positions:
