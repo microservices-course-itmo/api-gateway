@@ -62,7 +62,7 @@ public class ApiGatewayController {
         List<String> ids = itemDtos.stream().map(ItemDto::getId).collect(Collectors.toList());
 
         Map<String, List<String>> query = new HashMap<>();
-        query.put("favoritePosition", ids);
+        query.put("favouritePosition", ids);
 
         return favoriteWinePositionsClient.getFavourites(query);
     }
