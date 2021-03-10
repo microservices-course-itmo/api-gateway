@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -59,7 +61,10 @@ public class ApiGatewayController {
         log.info("Favorite positions amount: " + itemDtos.size());
         List<String> ids = itemDtos.stream().map(ItemDto::getId).collect(Collectors.toList());
 
-        return favoriteWinePositionsClient.getFavourites(ids);
+        Map<String, List<String>> query = new HashMap<>();
+        query.put("favoritePosition", ids);
+
+        return favoriteWinePositionsClient.getFavourites(query);
     }
 
     @ApiOperation(value = "Get favourites wine positions",
