@@ -84,7 +84,10 @@ public class ApiGatewayController {
 
         List<ItemDto> itemDtos = favoritesServiceClient.findUsersFavorites(id, role);
         Set<String> ids = itemDtos.stream().map(ItemDto::getId).collect(Collectors.toSet());
-        List<WinePositionTrueResponse> positions = winePositionClient.getAllWinePositionsTrue(page, amount, sortByPair, filterBy);
+
+        Map<String, List<String>> query = new HashMap<>();
+        query.put("sortByPair", sortByPair);
+        List<WinePositionTrueResponse> positions = winePositionClient.getAllWinePositionsTrue(page, amount, query, filterBy);
 
         log.info("Wine positions: " + positions.size());
 
