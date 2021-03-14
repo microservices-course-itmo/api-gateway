@@ -20,10 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -86,8 +83,17 @@ public class ApiGatewayController {
         Set<String> ids = itemDtos.stream().map(ItemDto::getId).collect(Collectors.toSet());
 
         Map<String, List<String>> query = new HashMap<>();
+        List<String> amountList  = new ArrayList<>();
+        amountList.add(amount);
+        List<String> pageList  = new ArrayList<>();
+        amountList.add(page);
+        List<String> filterByList  = new ArrayList<>();
+        amountList.add(filterBy);
         query.put("sortByPair", sortByPair);
-        List<WinePositionTrueResponse> positions = winePositionClient.getAllWinePositionsTrue(page, amount, query, filterBy);
+        query.put("amount", amountList);
+        query.put("page", pageList);
+        query.put("filterBy", filterByList);
+        List<WinePositionTrueResponse> positions = winePositionClient.getAllWinePositionsTrue(query);
 
         log.info("Wine positions: " + positions.size());
 
