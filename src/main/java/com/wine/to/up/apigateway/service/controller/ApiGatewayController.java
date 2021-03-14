@@ -86,9 +86,9 @@ public class ApiGatewayController {
         List<String> amountList  = new ArrayList<>();
         amountList.add(amount);
         List<String> pageList  = new ArrayList<>();
-        amountList.add(page);
+        pageList.add(page);
         List<String> filterByList  = new ArrayList<>();
-        amountList.add(filterBy);
+        filterByList.add(filterBy);
         query.put("sortByPair", sortByPair);
         query.put("amount", amountList);
         query.put("page", pageList);
