@@ -37,7 +37,7 @@ public class CheckTokenFilter extends ZuulFilter {
         String endpointToFilter = request.getRequestURI();
         return !endpointToFilter.contains("swagger") &&
                 !endpointToFilter.contains("api-docs") &&
-                !endpointToFilter.contains("deployment-service") &&
+                //!endpointToFilter.contains("deployment-service") &&
                 !request.getMethod().equals("OPTIONS") &&
                 !endpointToFilter.contains("ml") &&
                 !endpointToFilter.contains("/user-service/login") &&
