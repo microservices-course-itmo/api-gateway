@@ -13,8 +13,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.connector.Response;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,6 +62,8 @@ public class ApiGatewayController {
         Map<String, List<String>> query = new HashMap<>();
         query.put("favouritePosition", ids);
 
+        setHeaders();
+
         return favoriteWinePositionsClient.getFavourites(query);
     }
 
@@ -100,10 +100,17 @@ public class ApiGatewayController {
 
         log.info("Wine positions: " + positions.size());
 
+        setHeaders();
+
+        return favoritePositionService.convertWinePositions(positions, ids);
+    }
+
+    private void setHeaders() {
         RequestContext context = RequestContext.getCurrentContext();
         HttpServletResponse servletResponse = context.getResponse();
-        servletResponse.addHeader("Cache-Control", "no-cache");
-        return favoritePositionService.convertWinePositions(positions, ids);
+        servletResponse.addHeader("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate");
+        servletResponse.addHeader("Pragma", "no-cache");
+        servletResponse.addHeader("Expires", "0");
     }
 
 }
