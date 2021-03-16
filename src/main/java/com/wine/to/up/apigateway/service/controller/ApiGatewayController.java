@@ -56,6 +56,8 @@ public class ApiGatewayController {
 
         List<ItemDto> itemDtos = favoritesServiceClient.findUsersFavorites(id, role);
 
+        setHeaders();
+
         if (itemDtos.isEmpty()) return new ArrayList<>();
 
         log.info("Favorite positions amount: " + itemDtos.size());
@@ -63,8 +65,6 @@ public class ApiGatewayController {
 
         Map<String, List<String>> query = new HashMap<>();
         query.put("favouritePosition", ids);
-
-        setHeaders();
 
         return favoriteWinePositionsClient.getFavourites(query);
     }
