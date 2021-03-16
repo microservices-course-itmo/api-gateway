@@ -56,6 +56,8 @@ public class ApiGatewayController {
 
         List<ItemDto> itemDtos = favoritesServiceClient.findUsersFavorites(id, role);
 
+        if (itemDtos.isEmpty()) return new ArrayList<>();
+
         log.info("Favorite positions amount: " + itemDtos.size());
         List<String> ids = itemDtos.stream().map(ItemDto::getId).collect(Collectors.toList());
 
