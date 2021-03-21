@@ -5,7 +5,7 @@ zuul:
     api-gateway:
       url: forward:/catalog-service/favorites/
     positions:
-      url: forward:/catalog-service/position/true/settings/
+      url: forward:/catalog-service/position/true/trueSettings/
     ml-team-2-service:
       url: http://ml-team-2-service:80
     ml-description-based-recommendation-service:

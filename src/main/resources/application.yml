@@ -31,8 +31,8 @@ zuul:
       path: /catalog-service/favorites/**
       url: forward:/catalog-service/favorites/
     positions:
-      path: /catalog-service/position/true/settings/**
-      url: forward:/catalog-service/position/true/settings/
+      path: /catalog-service/position/true/trueSettings/**
+      url: forward:/catalog-service/position/true/trueSettings/
     ml-description-based-recommendation-service:
       path: /ml-description-based-recommendation-service/**
     ml-team-2-service:

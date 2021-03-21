@@ -43,7 +43,7 @@ public class WinePositionWithFavorites {
     @JsonProperty("country")
     private String country;
 
-    @JsonProperty("is_liked")
-    private boolean isLiked;
+    @JsonProperty("liked")
+    private boolean liked;
 
 }
