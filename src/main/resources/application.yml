@@ -13,13 +13,30 @@ management:
 # Zuul looks for Eureka (Netflix discovery service) by default.
 # Once service are deployed, they are managed by Docker Swarm discovery service and Eureka is not used
 ribbon:
+  ConnectTimeout: 10000
+  ReadTimeout: 10000
   eureka:
-    enabled: false
+    enabled: true
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
 
-
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000
 zuul:
-  debug:
-    request: true
+  ribbon:
+    ConnectTimeout: 10000000
+    ReadTimeout: 10000000
   sensitiveHeaders:
   host:
     socket-timeout-millis: 180000
@@ -37,6 +54,8 @@ zuul:
       path: /ml-description-based-recommendation-service/**
     ml-team-2-service:
       path: /ml-team-2-service/**
+    eureka:
+      path: /eureka-service/**
     ml3-recommendation-service:
       url: /ml3-recommendation-service/**
     ml4-recommendation-service:

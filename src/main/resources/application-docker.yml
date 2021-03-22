@@ -1,6 +1,15 @@
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: ${S_EUREKA_HOST}
+
 zuul:
   routes:
-    eureka-service:
+    eureka:
       url: http://eureka-service:8080
     api-gateway:
       url: forward:/catalog-service/favorites/
