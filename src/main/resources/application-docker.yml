@@ -11,6 +11,8 @@ zuul:
   routes:
     api-gateway:
       url: forward:/catalog-service/favorites/
+    eureka:
+      url: http://eureka-service:8080
     ml-team-2-service:
       url: http://ml-team-2-service:80
     ml-description-based-recommendation-service:

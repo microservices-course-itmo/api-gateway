@@ -49,6 +49,8 @@ zuul:
       path: /ml-description-based-recommendation-service/**
     ml-team-2-service:
       path: /ml-team-2-service/**
+    eureka:
+      path: /eureka-service/**
     ml3-recommendation-service:
       url: /ml3-recommendation-service/**
     ml4-recommendation-service:
