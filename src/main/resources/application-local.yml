@@ -1,0 +1,6 @@
+zuul:
+  routes:
+    demo-service:
+      url: http://localhost:8080
+    demo-catalog-service:
+      url: http://localhost:8090
