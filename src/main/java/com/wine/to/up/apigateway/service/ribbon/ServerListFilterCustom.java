@@ -13,7 +13,7 @@ public class ServerListFilterCustom implements ServerListFilter<Server> {
     public List<Server> getFilteredListOfServers(List<Server> servers) {
         List<Server> output = new ArrayList<Server>();
         for (Server server : servers) {
-            if (server.getMetaInfo().getInstanceId().contains("test")) {
+            if (!server.getMetaInfo().getInstanceId().contains("test") && server.getMetaInfo().getInstanceId() != null) {
                 output.add(server);
             }
         }
