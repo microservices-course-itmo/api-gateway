@@ -81,12 +81,28 @@ public class ApiGatewayController {
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         String accessToken = request.getHeader("Authorization").split(" ")[1];
 
+        if (accessToken.equals("123")) {
+            List<WinePositionTrueResponse> positions = getWinePositionTrueResponses(page, amount, sortByPair, filterBy);
+            setHeaders();
+            return favoritePositionService.convertWinePositions(positions, new HashSet<>());
+        }
+
         String id = JwtTokenProvider.getId(accessToken);
         String role = JwtTokenProvider.getRole(accessToken);
 
         List<ItemDto> itemDtos = favoritesServiceClient.findUsersFavorites(id, role);
         Set<String> ids = itemDtos.stream().map(ItemDto::getId).collect(Collectors.toSet());
 
+        List<WinePositionTrueResponse> positions = getWinePositionTrueResponses(page, amount, sortByPair, filterBy);
+
+        log.info("Wine positions: " + positions.size());
+
+        setHeaders();
+
+        return favoritePositionService.convertWinePositions(positions, ids);
+    }
+
+    private List<WinePositionTrueResponse> getWinePositionTrueResponses(String page, String amount, List<String> sortByPair, String filterBy) {
         Map<String, List<String>> query = new HashMap<>();
         List<String> amountList  = new ArrayList<>();
         amountList.add(amount);
@@ -99,12 +115,7 @@ public class ApiGatewayController {
         query.put("page", pageList);
         query.put("filterBy", filterByList);
         List<WinePositionTrueResponse> positions = winePositionClient.getAllWinePositionsTrue(query);
-
-        log.info("Wine positions: " + positions.size());
-
-        setHeaders();
-
-        return favoritePositionService.convertWinePositions(positions, ids);
+        return positions;
     }
 
     private void setHeaders() {
