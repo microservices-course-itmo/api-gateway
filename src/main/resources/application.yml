@@ -10,8 +10,6 @@ management:
     web:
       exposure:
         include: prometheus
-# Zuul looks for Eureka (Netflix discovery service) by default.
-# Once service are deployed, they are managed by Docker Swarm discovery service and Eureka is not used
 ribbon:
   ConnectTimeout: 10000
   ReadTimeout: 10000
