@@ -14,7 +14,7 @@ zuul:
     api-gateway:
       url: forward:/catalog-service/favorites/
     by-id:
-      url: forward:/catalog-service/position/true/byId/
+      url: forward:/catalog-service/true/byId/
     positions:
       url: forward:/catalog-service/position/true/trueSettings/
     ml-team-2-service:

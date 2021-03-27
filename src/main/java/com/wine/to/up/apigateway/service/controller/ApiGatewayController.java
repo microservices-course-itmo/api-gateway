@@ -65,7 +65,7 @@ public class ApiGatewayController {
     @ApiOperation(value = "Get favourites wine positions",
             nickname = "getFavouritesPositions",
             tags = {"favorite-positions-controller",})
-    @GetMapping("/true/trueSettings")
+    @GetMapping("/position/true/trueSettings")
     public List<WinePositionWithFavorites> getWinePositions(@RequestParam(required = false) String page,
                                                             @RequestParam(required = false) String amount,
                                                             @RequestParam(required = false) List<String> sortByPair,
@@ -90,7 +90,7 @@ public class ApiGatewayController {
         return favoritePositionService.convertWinePositions(positions, ids);
     }
 
-    @GetMapping("/byId/{id}")
+    @GetMapping("/true/byId/{id}")
     public WinePositionWithFavorites getWineById(@Valid @PathVariable(name = "id") String winePositionId) {
         log.info("Got request for positions by id");
         List<String> recomendationIds = wineRecommendationServiceClient.recommend(winePositionId);
