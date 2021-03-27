@@ -15,6 +15,8 @@ zuul:
       url: forward:/catalog-service/favorites/
     by-id:
       url: forward:/catalog-service/position/true/byId/
+    rec:
+      url: forward:/catalog-service/rec/true/byId/
     positions:
       url: forward:/catalog-service/position/true/trueSettings/
     ml-team-2-service:

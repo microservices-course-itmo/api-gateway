@@ -51,6 +51,9 @@ zuul:
     by-id:
       path: /catalog-service/position/true/byId/**
       url: forward:/catalog-service/position/true/byId/
+    rec:
+      path: /catalog-service/rec/true/byId/**
+      url: forward:/catalog-service/rec/true/byId/
     ml-description-based-recommendation-service:
       path: /ml-description-based-recommendation-service/**
     ml-team-2-service:

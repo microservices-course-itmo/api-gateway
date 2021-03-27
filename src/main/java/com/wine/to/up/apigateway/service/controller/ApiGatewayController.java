@@ -2,6 +2,7 @@ package com.wine.to.up.apigateway.service.controller;
 
 import com.netflix.zuul.context.RequestContext;
 import com.wine.to.up.apigateway.service.dto.WinePositionWithFavorites;
+import com.wine.to.up.apigateway.service.dto.WinePositionWithRecommendations;
 import com.wine.to.up.apigateway.service.jwt.JwtTokenProvider;
 import com.wine.to.up.apigateway.service.service.FavoritePositionService;
 import com.wine.to.up.catalog.service.api.dto.WinePositionTrueResponse;
@@ -93,11 +94,12 @@ public class ApiGatewayController {
     @GetMapping("/position/true/byId/{id}")
     public WinePositionWithFavorites getWineById(@Valid @PathVariable(name = "id") String winePositionId) {
         log.info("Got request for positions by id");
-        //List<String> recomendationIds = wineRecommendationServiceClient.recommend(winePositionId);
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         String accessToken = request.getHeader("Authorization").split(" ")[1];
 
         WinePositionTrueResponse response = favoriteWinePositionsClient.getPositionById(winePositionId);
+
+        setHeaders();
 
         if (accessToken.equals("123")) {
             setHeaders();
@@ -106,6 +108,33 @@ public class ApiGatewayController {
 
         Set<String> ids = getFavoriteIds(accessToken);
         return favoritePositionService.getPosition(response, ids);
+    }
+
+    @GetMapping("/rec/true/byId/{id}")
+    public WinePositionWithRecommendations getWineWithRecommendations(@Valid @PathVariable(name = "id") String winePositionId) {
+        log.info("Got request for positions by id");
+        List<String> recommendationIds = wineRecommendationServiceClient.recommend(winePositionId);
+        HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
+        String accessToken = request.getHeader("Authorization").split(" ")[1];
+
+        WinePositionTrueResponse response = favoriteWinePositionsClient.getPositionById(winePositionId);
+
+        List<WinePositionWithFavorites> positions = new ArrayList<>();
+
+        Set<String> ids = new HashSet<>();
+
+        if (!accessToken.equals("123")) {
+            ids = getFavoriteIds(accessToken);
+        }
+
+        Set<String> finalIds = ids;
+        recommendationIds.forEach(id -> {
+            WinePositionTrueResponse resp = favoriteWinePositionsClient.getPositionById(id);
+            positions.add(favoritePositionService.getPosition(resp, finalIds));
+        });
+
+        setHeaders();
+        return new WinePositionWithRecommendations(favoritePositionService.getPosition(response, finalIds), positions);
     }
 
     private Set<String> getFavoriteIds(String accessToken) {
