@@ -13,7 +13,16 @@ public class FavoritePositionService {
     public List<WinePositionWithFavorites> convertWinePositions(
             List<WinePositionTrueResponse> winePositionTrueResponses,
             Set<String> favoriteIds){
-        return winePositionTrueResponses.stream().map(response -> new WinePositionWithFavorites(
+        return winePositionTrueResponses.stream().map(response -> getPosition(response, favoriteIds))
+                .collect(Collectors.toList());
+    }
+
+    public List<WinePositionWithFavorites> getFavorites(List<WinePositionWithFavorites> positions){
+        return positions.stream().filter(WinePositionWithFavorites::isLiked).collect(Collectors.toList());
+    }
+
+    public WinePositionWithFavorites getPosition(WinePositionTrueResponse response, Set<String> favoriteIds){
+        return new WinePositionWithFavorites(
                 response.getWine_position_id(),
                 response.getShop(),
                 response.getWineTrueResponse(),
@@ -25,10 +34,6 @@ public class FavoritePositionService {
                 response.getGastronomy(),
                 response.getImage(),
                 response.getCountry(),
-                favoriteIds.contains(response.getWine_position_id()))).collect(Collectors.toList());
-    }
-
-    public List<WinePositionWithFavorites> getFavorites(List<WinePositionWithFavorites> positions){
-        return positions.stream().filter(WinePositionWithFavorites::isLiked).collect(Collectors.toList());
+                favoriteIds.contains(response.getWine_position_id()));
     }
 }
