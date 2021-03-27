@@ -51,22 +51,14 @@ public class ApiGatewayController {
         log.info("Got request for favorite positions");
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         String accessToken = request.getHeader("Authorization").split(" ")[1];
-
-        String id = JwtTokenProvider.getId(accessToken);
-        String role = JwtTokenProvider.getRole(accessToken);
-
-        List<ItemDto> itemDtos = favoritesServiceClient.findUsersFavorites(id, role);
-
         setHeaders();
 
-        if (itemDtos.isEmpty()) return new ArrayList<>();
+        List<String> ids = new ArrayList<>(getFavoriteIds(accessToken));
 
-        log.info("Favorite positions amount: " + itemDtos.size());
-        List<String> ids = itemDtos.stream().map(ItemDto::getId).collect(Collectors.toList());
+        if (ids.isEmpty()) return new ArrayList<>();
 
         Map<String, List<String>> query = new HashMap<>();
         query.put("favouritePosition", ids);
-
         return favoriteWinePositionsClient.getFavourites(query);
     }
 
@@ -89,7 +81,6 @@ public class ApiGatewayController {
         }
 
         Set<String> ids = getFavoriteIds(accessToken);
-
         List<WinePositionTrueResponse> positions = getWinePositionTrueResponses(page, amount, sortByPair, filterBy);
 
         log.info("Wine positions: " + positions.size());
@@ -102,7 +93,7 @@ public class ApiGatewayController {
     @GetMapping("/byId/{id}")
     public WinePositionWithFavorites getWineById(@Valid @PathVariable(name = "id") String winePositionId) {
         log.info("Got request for positions by id");
-        //List<String> recomendationIds = wineRecommendationServiceClient.recommend(winePositionId);
+        List<String> recomendationIds = wineRecommendationServiceClient.recommend(winePositionId);
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         String accessToken = request.getHeader("Authorization").split(" ")[1];
 

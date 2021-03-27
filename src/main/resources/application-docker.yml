@@ -1,11 +1,11 @@
-eureka:
-  instance:
-    preferIpAddress: true
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: ${S_EUREKA_HOST}
+#eureka:
+#  instance:
+#    preferIpAddress: true
+#  client:
+#    registerWithEureka: true
+#    fetchRegistry: true
+#    serviceUrl:
+#      defaultZone: ${S_EUREKA_HOST}
 
 zuul:
   routes:
@@ -13,6 +13,8 @@ zuul:
       url: http://eureka-service:8080
     api-gateway:
       url: forward:/catalog-service/favorites/
+    by-id:
+      url: forward:/catalog-service/position/true/byId/
     positions:
       url: forward:/catalog-service/position/true/trueSettings/
     ml-team-2-service:
