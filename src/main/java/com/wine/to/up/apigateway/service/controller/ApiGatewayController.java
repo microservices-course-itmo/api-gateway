@@ -90,10 +90,10 @@ public class ApiGatewayController {
         return favoritePositionService.convertWinePositions(positions, ids);
     }
 
-    @GetMapping("/true/byId/{id}")
+    @GetMapping("/position/true/byId/{id}")
     public WinePositionWithFavorites getWineById(@Valid @PathVariable(name = "id") String winePositionId) {
         log.info("Got request for positions by id");
-        List<String> recomendationIds = wineRecommendationServiceClient.recommend(winePositionId);
+        //List<String> recomendationIds = wineRecommendationServiceClient.recommend(winePositionId);
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         String accessToken = request.getHeader("Authorization").split(" ")[1];
 
