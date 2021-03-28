@@ -14,7 +14,7 @@ public class ServerListFilterCustom implements ServerListFilter<Server> {
         List<Server> output = new ArrayList<Server>();
         for (Server server : servers) {
             if (server.getMetaInfo().getInstanceId() != null){
-                if (!server.getMetaInfo().getInstanceId().contains("test")) {
+                if (!server.getMetaInfo().getInstanceId().contains("stopTraffic")) {
                     output.add(server);
                 }
             }
