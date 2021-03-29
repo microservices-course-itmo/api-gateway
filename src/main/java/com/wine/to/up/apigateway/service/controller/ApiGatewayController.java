@@ -51,8 +51,9 @@ public class ApiGatewayController {
     public List<WinePositionTrueResponse> getFavourites() {
         log.info("Got request for favorite positions");
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
-        String accessToken = request.getHeader("Authorization").split(" ")[1];
         setHeaders();
+
+        String accessToken = request.getHeader("Authorization").split(" ")[1];
 
         List<String> ids = new ArrayList<>(getFavoriteIds(accessToken));
 
@@ -73,9 +74,14 @@ public class ApiGatewayController {
                                                             @RequestParam(required = false) String filterBy) {
         log.info("Got request for positions with settings");
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
-        String accessToken = request.getHeader("Authorization").split(" ")[1];
+        String accessToken = "";
+        try {
+            accessToken = request.getHeader("Authorization").split(" ")[1];
+        } catch (Exception e) {
+            log.info("No header");
+        }
 
-        if (accessToken.equals("123")) {
+        if (accessToken.equals("123") || accessToken.equals("")) {
             List<WinePositionTrueResponse> positions = getWinePositionTrueResponses(page, amount, sortByPair, filterBy);
             setHeaders();
             return favoritePositionService.convertWinePositions(positions, new HashSet<>());
@@ -95,13 +101,18 @@ public class ApiGatewayController {
     public WinePositionWithFavorites getWineById(@Valid @PathVariable(name = "id") String winePositionId) {
         log.info("Got request for positions by id");
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
-        String accessToken = request.getHeader("Authorization").split(" ")[1];
+        String accessToken = "";
+        try {
+            accessToken = request.getHeader("Authorization").split(" ")[1];
+        } catch (Exception e) {
+            log.info("No header");
+        }
 
         WinePositionTrueResponse response = favoriteWinePositionsClient.getPositionById(winePositionId);
 
         setHeaders();
 
-        if (accessToken.equals("123")) {
+        if (accessToken.equals("123") || accessToken.equals("")) {
             setHeaders();
             return favoritePositionService.getPosition(response, new HashSet<>());
         }
@@ -115,7 +126,12 @@ public class ApiGatewayController {
         log.info("Got request for positions by id");
         List<String> recommendationIds = wineRecommendationServiceClient.recommend(winePositionId);
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
-        String accessToken = request.getHeader("Authorization").split(" ")[1];
+        String accessToken = "";
+        try {
+            accessToken = request.getHeader("Authorization").split(" ")[1];
+        } catch (Exception e) {
+            log.info("No header");
+        }
 
         WinePositionTrueResponse response = favoriteWinePositionsClient.getPositionById(winePositionId);
 
@@ -123,7 +139,7 @@ public class ApiGatewayController {
 
         Set<String> ids = new HashSet<>();
 
-        if (!accessToken.equals("123")) {
+        if (!accessToken.equals("123") && !accessToken.equals("")) {
             ids = getFavoriteIds(accessToken);
         }
 
