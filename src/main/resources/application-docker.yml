@@ -9,6 +9,8 @@
 
 zuul:
   routes:
+    proxy-service:
+      url: http://proxy-service:8080
     eureka:
       url: http://eureka-service:8080
     api-gateway:

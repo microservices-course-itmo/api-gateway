@@ -42,6 +42,8 @@ zuul:
     socket-timeout-millis: 180000
     connect-timeout-millis: 180000
   routes:
+    proxy-service:
+      path: /proxy-service/**
     api-gateway:
       path: /catalog-service/favorites/**
       url: forward:/catalog-service/favorites/
