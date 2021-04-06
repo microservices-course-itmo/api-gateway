@@ -36,7 +36,7 @@ public class CheckTokenFilter extends ZuulFilter {
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         String endpointToFilter = request.getRequestURI();
         return endpointToFilter.contains("deployment-service") ||
-                !endpointToFilter.contains("swagger") &&
+                (!endpointToFilter.contains("swagger") &&
                 !endpointToFilter.contains("api-docs") &&
                 !request.getMethod().equals("OPTIONS") &&
                 !endpointToFilter.contains("ml") &&
@@ -45,7 +45,8 @@ public class CheckTokenFilter extends ZuulFilter {
                 !endpointToFilter.contains("parser") &&
                 !endpointToFilter.contains("eureka-service") &&
                 !endpointToFilter.contains("/catalog-service/favorites") &&
-                !endpointToFilter.contains("/catalog/service/position/true/trueSettings");
+                !endpointToFilter.contains("/catalog/service/position/true/trueSettings")
+                );
     }
 
     @Override
