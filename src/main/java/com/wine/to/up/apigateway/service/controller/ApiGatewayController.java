@@ -1,10 +1,12 @@
 package com.wine.to.up.apigateway.service.controller;
 
 import com.netflix.zuul.context.RequestContext;
+import com.wine.to.up.apigateway.service.dto.ServiceStatusDTO;
 import com.wine.to.up.apigateway.service.dto.WinePositionWithFavorites;
 import com.wine.to.up.apigateway.service.dto.WinePositionWithRecommendations;
 import com.wine.to.up.apigateway.service.jwt.JwtTokenProvider;
 import com.wine.to.up.apigateway.service.service.FavoritePositionService;
+import com.wine.to.up.apigateway.service.status.CallServices;
 import com.wine.to.up.catalog.service.api.dto.WinePositionTrueResponse;
 import com.wine.to.up.catalog.service.api.feign.FavoriteWinePositionsClient;
 import com.wine.to.up.catalog.service.api.feign.WinePositionClient;
@@ -15,6 +17,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +46,8 @@ public class ApiGatewayController {
     private final FavoritePositionService favoritePositionService;
 
     private final WineRecommendationServiceClient wineRecommendationServiceClient;
+
+    private final CallServices callServices;
 
 
     @ApiOperation(value = "Get favourites wine positions",
@@ -95,6 +101,11 @@ public class ApiGatewayController {
         setHeaders();
 
         return favoritePositionService.convertWinePositions(positions, ids);
+    }
+
+    @GetMapping("/statuses")
+    public ResponseEntity<List<ServiceStatusDTO>> servicesStatuses() {
+        return new ResponseEntity<>(callServices.checkServices(), HttpStatus.OK);
     }
 
     @GetMapping("/position/true/byId/{id}")
@@ -163,11 +174,11 @@ public class ApiGatewayController {
 
     private List<WinePositionTrueResponse> getWinePositionTrueResponses(String page, String amount, List<String> sortByPair, String filterBy) {
         Map<String, List<String>> query = new HashMap<>();
-        List<String> amountList  = new ArrayList<>();
+        List<String> amountList = new ArrayList<>();
         amountList.add(amount);
-        List<String> pageList  = new ArrayList<>();
+        List<String> pageList = new ArrayList<>();
         pageList.add(page);
-        List<String> filterByList  = new ArrayList<>();
+        List<String> filterByList = new ArrayList<>();
         filterByList.add(filterBy);
         query.put("sortByPair", sortByPair);
         query.put("amount", amountList);
