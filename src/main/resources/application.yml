@@ -63,9 +63,9 @@ zuul:
     eureka:
       path: /eureka-service/**
     ml3-recommendation-service:
-      url: /ml3-recommendation-service/**
+      path: /ml3-recommendation-service/**
     ml4-recommendation-service:
-      url: /segandrec-service/**
+      path: /segandrec-service/**
     demo-service:
       path: /demo-service/**
     demo-catalog-service:
