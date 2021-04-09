@@ -51,6 +51,12 @@
             <version>${service.commonlib.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.wine.to.up</groupId>
+            <artifactId>ml-team-2-service-api</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
         <!--Required: metric for monitoring-->
         <dependency>
             <groupId>io.micrometer</groupId>

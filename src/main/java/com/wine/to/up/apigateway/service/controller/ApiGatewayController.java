@@ -9,6 +9,8 @@ import com.wine.to.up.catalog.service.api.dto.WinePositionTrueResponse;
 import com.wine.to.up.catalog.service.api.feign.FavoriteWinePositionsClient;
 import com.wine.to.up.catalog.service.api.feign.WinePositionClient;
 import com.wine.to.up.description.ml.api.feign.WineRecommendationServiceClient;
+import com.wine.to.up.ml2.api.dto.RecommendationResponse;
+import com.wine.to.up.ml2.api.feign.ML2WineRecommendationServiceClient;
 import com.wine.to.up.user.service.api.dto.ItemDto;
 import com.wine.to.up.user.service.api.feign.FavoritesServiceClient;
 import io.swagger.annotations.Api;
@@ -42,6 +44,8 @@ public class ApiGatewayController {
     private final FavoritePositionService favoritePositionService;
 
     private final WineRecommendationServiceClient wineRecommendationServiceClient;
+
+    private final ML2WineRecommendationServiceClient ml2WineRecommendationServiceClient;
 
 
     @ApiOperation(value = "Get favourites wine positions",
@@ -125,6 +129,40 @@ public class ApiGatewayController {
     public WinePositionWithRecommendations getWineWithRecommendations(@Valid @PathVariable(name = "id") String winePositionId) {
         log.info("Got request for positions by id");
         List<String> recommendationIds = wineRecommendationServiceClient.recommend(winePositionId);
+        HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
+        String accessToken = "";
+        try {
+            accessToken = request.getHeader("Authorization").split(" ")[1];
+        } catch (Exception e) {
+            log.info("No header");
+        }
+
+        WinePositionTrueResponse response = favoriteWinePositionsClient.getPositionById(winePositionId);
+
+        List<WinePositionWithFavorites> positions = new ArrayList<>();
+
+        Set<String> ids = new HashSet<>();
+
+        if (!accessToken.equals("123") && !accessToken.equals("")) {
+            ids = getFavoriteIds(accessToken);
+        }
+
+        Set<String> finalIds = ids;
+        recommendationIds.forEach(id -> {
+            WinePositionTrueResponse resp = favoriteWinePositionsClient.getPositionById(id);
+            positions.add(favoritePositionService.getPosition(resp, finalIds));
+        });
+
+        setHeaders();
+        return new WinePositionWithRecommendations(favoritePositionService.getPosition(response, finalIds), positions);
+    }
+
+    @GetMapping("/rec1/true/byId/{id}")
+    public WinePositionWithRecommendations getWineWithRecommendations2(@Valid @PathVariable(name = "id") String winePositionId) {
+        log.info("Got request for positions by id");
+
+        List<String> recommendationIds = ml2WineRecommendationServiceClient.recommend(0, 10).getContent();
+        //List<String> recommendationIds = wineRecommendationServiceClient.recommend(winePositionId);
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         String accessToken = "";
         try {
