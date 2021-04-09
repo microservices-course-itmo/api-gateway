@@ -128,7 +128,7 @@
         <dependency>
             <groupId>com.wine.to.up</groupId>
             <artifactId>user-service-api</artifactId>
-            <version>0.1.5-SNAPSHOT</version>
+            <version>0.1.6-SNAPSHOT</version>
         </dependency>
 
         <dependency>
