@@ -9,6 +9,7 @@ import com.wine.to.up.catalog.service.api.dto.WinePositionTrueResponse;
 import com.wine.to.up.catalog.service.api.feign.FavoriteWinePositionsClient;
 import com.wine.to.up.catalog.service.api.feign.WinePositionClient;
 import com.wine.to.up.description.ml.api.feign.WineRecommendationServiceClient;
+import com.wine.to.up.ml2.api.feign.ML2WineRecommendationServiceClient;
 import com.wine.to.up.user.service.api.dto.ItemDto;
 import com.wine.to.up.user.service.api.feign.FavoritesServiceClient;
 import io.swagger.annotations.Api;
@@ -43,7 +44,7 @@ public class ApiGatewayController {
 
     private final WineRecommendationServiceClient wineRecommendationServiceClient;
 
-    /*private final ML2WineRecommendationServiceClient ml2WineRecommendationServiceClient;*/
+    private final ML2WineRecommendationServiceClient ml2WineRecommendationServiceClient;
 
 
     @ApiOperation(value = "Get favourites wine positions",
@@ -154,7 +155,6 @@ public class ApiGatewayController {
         setHeaders();
         return new WinePositionWithRecommendations(favoritePositionService.getPosition(response, finalIds), positions);
     }
-/*
     @GetMapping("/rec1/true/byId/{id}")
     public WinePositionWithRecommendations getWineWithRecommendations2(@Valid @PathVariable(name = "id") String winePositionId) {
         log.info("Got request for positions by id");
@@ -187,7 +187,7 @@ public class ApiGatewayController {
 
         setHeaders();
         return new WinePositionWithRecommendations(favoritePositionService.getPosition(response, finalIds), positions);
-    }*/
+    }
 
     private Set<String> getFavoriteIds(String accessToken) {
         String id = JwtTokenProvider.getId(accessToken);
