@@ -9,8 +9,6 @@ import com.wine.to.up.catalog.service.api.dto.WinePositionTrueResponse;
 import com.wine.to.up.catalog.service.api.feign.FavoriteWinePositionsClient;
 import com.wine.to.up.catalog.service.api.feign.WinePositionClient;
 import com.wine.to.up.description.ml.api.feign.WineRecommendationServiceClient;
-import com.wine.to.up.ml2.api.dto.RecommendationResponse;
-import com.wine.to.up.ml2.api.feign.ML2WineRecommendationServiceClient;
 import com.wine.to.up.user.service.api.dto.ItemDto;
 import com.wine.to.up.user.service.api.feign.FavoritesServiceClient;
 import io.swagger.annotations.Api;
